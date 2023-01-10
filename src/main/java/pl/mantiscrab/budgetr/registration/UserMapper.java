@@ -3,9 +3,9 @@ package pl.mantiscrab.budgetr.registration;
 class UserMapper {
     static User userFromUserRegistrationDto(UserRegistrationDto registrationDto) {
         return User.builder()
-                .email(registrationDto.getEmail())
-                .username(registrationDto.getUsername())
-                .password(registrationDto.getPassword())
+                .email(registrationDto.email())
+                .username(registrationDto.username())
+                .password(registrationDto.password())
                 .build();
     }
 

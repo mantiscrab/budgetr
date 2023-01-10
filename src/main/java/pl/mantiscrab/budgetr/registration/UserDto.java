@@ -1,9 +1,7 @@
 package pl.mantiscrab.budgetr.registration;
 
-import lombok.Data;
+import lombok.Builder;
 
-@Data
-class UserDto {
-    private final String email;
-    private final String username;
+@Builder
+record UserDto(String email, String username) {
 }
