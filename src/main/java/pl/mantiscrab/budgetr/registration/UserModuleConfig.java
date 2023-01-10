@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-class RegistrationConfig {
+class UserModuleConfig {
     @Bean
-    RegistrationFacade registrationFacade(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return new RegistrationFacade(passwordEncoder, userRepository);
+    UserService registrationFacade(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        return new UserService(passwordEncoder, userRepository);
     }
 }

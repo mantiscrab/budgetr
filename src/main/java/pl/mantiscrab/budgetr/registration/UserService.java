@@ -2,22 +2,24 @@ package pl.mantiscrab.budgetr.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
-class RegistrationFacade {
+class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    UserDto register(UserRegistrationDto dto) {
-        UserRegistrationDto dtoWithEncodedPassword = encodePassword(dto);
-        User user = UserMapper.userFromUserRegistrationDto(dtoWithEncodedPassword);
+    @Transactional
+    UserDto register(UserRegisterDto dto) {
+        UserRegisterDto dtoWithEncodedPassword = encodePassword(dto);
+        User user = UserMapper.userFromUserRegisterDto(dtoWithEncodedPassword);
         User savedUser = userRepository.save(user);
         UserDto savedUserDto = UserMapper.userDtoFromUser(savedUser);
         return savedUserDto;
     }
 
-    private UserRegistrationDto encodePassword(UserRegistrationDto registrationDto) {
-        return new UserRegistrationDto(registrationDto.email(),
+    private UserRegisterDto encodePassword(UserRegisterDto registrationDto) {
+        return new UserRegisterDto(registrationDto.email(),
                 registrationDto.username(),
                 passwordEncoder.encode(registrationDto.password()));
     }

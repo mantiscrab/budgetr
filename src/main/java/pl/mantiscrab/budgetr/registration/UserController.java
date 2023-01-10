@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-class RegistrationController {
-    private final RegistrationFacade facade;
+class UserController {
+    private final UserService service;
 
     @PostMapping("/register")
-    ResponseEntity<UserDto> register(@RequestBody UserRegistrationDto registrationDto) {
-        UserDto userDto = facade.register(registrationDto);
+    ResponseEntity<UserDto> register(@RequestBody UserRegisterDto registrationDto) {
+        UserDto userDto = service.register(registrationDto);
         return ResponseEntity.ok().body(userDto);
     }
 }
