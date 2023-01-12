@@ -3,6 +3,8 @@ package pl.mantiscrab.budgetr.registration;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+import pl.mantiscrab.budgetr.registration.dto.UserDto;
+import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
 @AllArgsConstructor
 class UserService {
