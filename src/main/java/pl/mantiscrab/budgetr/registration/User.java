@@ -10,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @ToString
 @Entity
 @Table(name = "users")

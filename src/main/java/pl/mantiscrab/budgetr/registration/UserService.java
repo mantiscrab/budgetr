@@ -13,11 +13,24 @@ class UserService {
 
     @Transactional
     UserDto register(UserRegisterDto dto) {
-        UserRegisterDto dtoWithEncodedPassword = encodePassword(dto);
-        User user = UserMapper.userFromUserRegisterDto(dtoWithEncodedPassword);
+        throwIfUserExist(dto);
+        User user = mapUserDtoToUser(dto);
         User savedUser = userRepository.save(user);
         UserDto savedUserDto = UserMapper.userDtoFromUser(savedUser);
         return savedUserDto;
+    }
+
+    private void throwIfUserExist(UserRegisterDto dto) {
+        if (userRepository.findByEmail(dto.email()).isPresent())
+            throw new UserAlreadyExistsException("User with email \"" + dto.email() + "\" already exist");
+        if (userRepository.findByUsername(dto.username()).isPresent())
+            throw new UserAlreadyExistsException("User with username \"" + dto.username() + "\" already exist");
+    }
+
+    private User mapUserDtoToUser(UserRegisterDto dto) {
+        UserRegisterDto dtoWithEncodedPassword = encodePassword(dto);
+        User user = UserMapper.userFromUserRegisterDto(dtoWithEncodedPassword);
+        return user;
     }
 
     private UserRegisterDto encodePassword(UserRegisterDto registrationDto) {

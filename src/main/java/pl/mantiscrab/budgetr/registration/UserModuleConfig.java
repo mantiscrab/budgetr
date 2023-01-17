@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 class UserModuleConfig {
     @Bean
-    UserService registrationFacade(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserService userService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return new UserService(passwordEncoder, userRepository);
     }
 }
