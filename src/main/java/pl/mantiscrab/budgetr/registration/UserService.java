@@ -2,7 +2,6 @@ package pl.mantiscrab.budgetr.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
@@ -11,16 +10,15 @@ class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    @Transactional
     UserDto register(UserRegisterDto dto) {
-        throwIfUserExist(dto);
+        throwExceptionIfUserAlreadyExists(dto);
         User user = mapUserDtoToUser(dto);
         User savedUser = userRepository.save(user);
         UserDto savedUserDto = UserMapper.userDtoFromUser(savedUser);
         return savedUserDto;
     }
 
-    private void throwIfUserExist(UserRegisterDto dto) {
+    private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
         if (userRepository.findByEmail(dto.email()).isPresent())
             throw new UserAlreadyExistsException("User with email \"" + dto.email() + "\" already exist");
         if (userRepository.findByUsername(dto.username()).isPresent())

@@ -22,7 +22,6 @@ class SecurityConfig {
                 .anyRequest().authenticated());
         http.formLogin();
         http.csrf().disable();
-//        http.csrf(csrf -> csrf.ignoringRequestMatchers(PathRequest.toH2Console()));
         http.headers().frameOptions().sameOrigin();
         return http.build();
     }

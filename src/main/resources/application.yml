@@ -1,5 +1,3 @@
 spring:
   datasource:
     url: jdbc:h2:mem:budgetr
-    username: sa
-    password: password
