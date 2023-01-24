@@ -1,5 +1,6 @@
 package pl.mantiscrab.budgetr.registration;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +29,7 @@ class RegistrationTest {
     TestRestTemplate restTemplate;
 
     @Test
+    @DisplayName("Should register user when user with same email and username doesn't exist yet")
     void registrationTest() {
         //given there's no registered user
         //when I submit registration info
@@ -36,14 +38,11 @@ class RegistrationTest {
         //then user is created
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
-        assertRegisterResponseMatchesRequest(registerResponse,registerRequest);
+        assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
     }
 
-    private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registerResponse, UserRegisterDto registerRequest) {
-        assertRegisterResponseMatchesRequest(extract(registerResponse), registerRequest);
-    }
-
-    private void assertRegisterResponseMatchesRequest(UserDto registrationResponse, UserRegisterDto registerRequest) {
+    private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registrationResponseEntity, UserRegisterDto registerRequest) {
+        UserDto registrationResponse = extract(registrationResponseEntity);
         assertEquals(registerRequest.email(), registrationResponse.email());
         assertEquals(registerRequest.username(), registrationResponse.username());
     }
@@ -62,7 +61,7 @@ class RegistrationTest {
                 .build().toUri();
     }
 
-    private  UriComponentsBuilder baseUriComponentsBuilder() {
+    private UriComponentsBuilder baseUriComponentsBuilder() {
         return UriComponentsBuilder.fromUriString(baseUri());
     }
 

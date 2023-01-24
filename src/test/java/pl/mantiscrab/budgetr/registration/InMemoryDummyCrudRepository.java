@@ -18,61 +18,61 @@ class InMemoryDummyCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     @Override
     public <S extends T> S save(S entity) {
-        return null;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
-        return null;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        return Optional.empty();
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public boolean existsById(ID id) {
-        return false;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public Iterable<T> findAll() {
-        return null;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public Iterable<T> findAllById(Iterable<ID> ids) {
-        return null;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public long count() {
-        return 0;
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public void deleteById(ID id) {
-
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public void delete(T entity) {
-
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public void deleteAllById(Iterable<? extends ID> ids) {
-
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public void deleteAll(Iterable<? extends T> entities) {
-
+        throw new MethodNotImplementedException();
     }
 
     @Override
     public void deleteAll() {
-
+        throw new MethodNotImplementedException();
     }
 }
