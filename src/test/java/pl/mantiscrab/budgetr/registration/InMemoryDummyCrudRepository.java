@@ -1,5 +1,6 @@
 package pl.mantiscrab.budgetr.registration;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.HashMap;
@@ -18,61 +19,61 @@ class InMemoryDummyCrudRepository<T, ID> implements CrudRepository<T, ID> {
 
     @Override
     public <S extends T> S save(S entity) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public boolean existsById(ID id) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public Iterable<T> findAll() {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public Iterable<T> findAllById(Iterable<ID> ids) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public long count() {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void deleteById(ID id) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void delete(T entity) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void deleteAllById(Iterable<? extends ID> ids) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void deleteAll(Iterable<? extends T> entities) {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 
     @Override
     public void deleteAll() {
-        throw new MethodNotImplementedException();
+        throw new NotImplementedException();
     }
 }
