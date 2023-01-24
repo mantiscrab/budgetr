@@ -17,6 +17,7 @@ import java.net.URI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
+import static pl.mantiscrab.budgetr.registration.TestUserData.sampleRegisterDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class RegistrationTest {
@@ -36,13 +37,6 @@ class RegistrationTest {
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
         assertRegisterResponseMatchesRequest(registerResponse,registerRequest);
-    }
-
-    private UserRegisterDto.UserRegisterDtoBuilder sampleRegisterDto() {
-        return UserRegisterDto.builder()
-                .email("user@user")
-                .username("username")
-                .password("password");
     }
 
     private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registerResponse, UserRegisterDto registerRequest) {
