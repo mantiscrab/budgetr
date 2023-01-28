@@ -33,12 +33,20 @@ class RegistrationTest {
     void registrationTest() {
         //given there's no registered user
         //when I submit registration info
-        UserRegisterDto registerRequest = sampleRegisterDto().build();
+        UserRegisterDto registerRequest = sampleRegisterDto()
+                .email("user@user")
+                .username("username")
+                .password("password").build();
         ResponseEntity<UserDto> registerResponse = register(registerRequest);
         //then user is created
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
         assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
+
+        //when user goes to main page providing his credentials
+        ResponseEntity<Void> response = restTemplate.withBasicAuth("username", "password").getForEntity(baseUri()+ "/", Void.class);
+        //then user is authenticated and response doesn't exist
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
     private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registrationResponseEntity, UserRegisterDto registerRequest) {
