@@ -10,3 +10,5 @@ spring:
         format_sql: true
     show-sql: true
     defer-datasource-initialization: true
+springdoc:
+  show-login-endpoint: true
