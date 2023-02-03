@@ -12,20 +12,19 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @ToString
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(nullable = false)
+    @NotBlank
+    private String username;
     @Column(nullable = false, unique = true)
     @Email
     @NotBlank
     private String email;
-    @Column(nullable = false, unique = true)
-    @NotBlank
-    private String username;
     @Column(nullable = false)
     @NotBlank
     private String password;
-
+    @Column(nullable = false)
+    private boolean enabled;
 }
