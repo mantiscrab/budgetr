@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @ToString
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 class User {
     @Id
     @Column(nullable = false)
