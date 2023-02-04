@@ -17,11 +17,11 @@ class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
-                .mvcMatchers("/register").permitAll()
                 .mvcMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated());
         http.formLogin();
+        http.httpBasic();
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
         return http.build();
