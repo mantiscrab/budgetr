@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
 @ToString
 @Entity
@@ -16,7 +15,7 @@ import java.io.Serializable;
 class Authority implements Serializable {
     @Id
     @JoinColumn(name = "username")
-    @ManyToOne()
+    @ManyToOne
     private User user;
     @Id
     private String authority;

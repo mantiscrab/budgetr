@@ -5,6 +5,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
+import java.util.HashSet;
+
 @AllArgsConstructor
 class UserService {
     private final PasswordEncoder passwordEncoder;
@@ -12,10 +14,9 @@ class UserService {
 
     UserDto register(UserRegisterDto dto) {
         throwExceptionIfUserAlreadyExists(dto);
-        User user = mapUserDtoToUser(dto);
+        User user = createUser(dto);
         User savedUser = userRepository.save(user);
-        UserDto savedUserDto = UserMapper.userDtoFromUser(savedUser);
-        return savedUserDto;
+        return UserMapper.userDtoFromUser(savedUser);
     }
 
     private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
@@ -25,15 +26,17 @@ class UserService {
             throw new UserAlreadyExistsException("User with username \"" + dto.username() + "\" already exist");
     }
 
-    private User mapUserDtoToUser(UserRegisterDto dto) {
-        UserRegisterDto dtoWithEncodedPassword = encodePassword(dto);
-        User user = UserMapper.userFromUserRegisterDto(dtoWithEncodedPassword);
+    private User createUser(UserRegisterDto dto) {
+        String encodedPassword = passwordEncoder.encode(dto.password());
+        User user = User.builder()
+                .email(dto.email())
+                .username(dto.username())
+                .password(encodedPassword)
+                .authorities(new HashSet<>())
+                .enabled(true)
+                .build();
+        Authority userAuthority = new Authority(user, "ROLE_USER");
+        user.addAuthority(userAuthority);
         return user;
-    }
-
-    private UserRegisterDto encodePassword(UserRegisterDto registrationDto) {
-        return new UserRegisterDto(registrationDto.email(),
-                registrationDto.username(),
-                passwordEncoder.encode(registrationDto.password()));
     }
 }
