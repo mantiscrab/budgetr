@@ -35,7 +35,7 @@ class RegistrationTest {
         //when I submit registration info
         UserRegisterDto registerRequest = sampleRegisterDto()
                 .email("user@user")
-                .username("username")
+                .username("fancyUsername")
                 .password("password").build();
         ResponseEntity<UserDto> registerResponse = register(registerRequest);
         //then user is created
@@ -44,9 +44,10 @@ class RegistrationTest {
         assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
 
         //when user goes to main page providing his credentials
-        ResponseEntity<Void> response = restTemplate.withBasicAuth("username", "password").getForEntity(baseUri()+ "/", Void.class);
+        ResponseEntity<String> response = restTemplate.withBasicAuth("fancyUsername", "password").getForEntity(baseUri() + "/registered", String.class);
         //then user is authenticated and response doesn't exist
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("fancyUsername", response.getBody());
     }
 
     private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registrationResponseEntity, UserRegisterDto registerRequest) {

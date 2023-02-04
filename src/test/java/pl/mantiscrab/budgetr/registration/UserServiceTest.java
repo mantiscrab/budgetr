@@ -38,4 +38,14 @@ class UserServiceTest {
         assertThrows(UserAlreadyExistsException.class, () -> userService.register(sampleRegisterDto().email("user@user").build()));
         System.out.println();
     }
+
+    @Test
+    @DisplayName("Should throw exception when registering user and user with same email exist")
+    void shouldThrowExceptionWhenRegisterAndUserWithSameUsernameExists() {
+        //given
+        userService.register(sampleRegisterDto().email("firstUser@user").username("username").build());
+        //when-then
+        assertThrows(UserAlreadyExistsException.class,
+                () -> userService.register(sampleRegisterDto().email("secondUser@user").username("username").build()));
+    }
 }
