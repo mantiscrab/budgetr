@@ -7,14 +7,14 @@ import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static pl.mantiscrab.budgetr.registration.TestUserData.sampleRegisterDto;
+import static pl.mantiscrab.budgetr.registration.UserTestDataProvider.sampleRegisterDto;
 
 class UserServiceTest {
     private UserService userService;
 
     @BeforeEach
     void init() {
-        userService = TestUserConfig.testUserService();
+        userService = new UserConfig().userService();
     }
 
     @Test

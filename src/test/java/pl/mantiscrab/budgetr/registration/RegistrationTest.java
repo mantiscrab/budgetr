@@ -8,6 +8,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
@@ -18,9 +19,10 @@ import java.net.URI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
-import static pl.mantiscrab.budgetr.registration.TestUserData.sampleRegisterDto;
+import static pl.mantiscrab.budgetr.registration.UserTestDataProvider.sampleRegisterDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@ActiveProfiles("test")
 class RegistrationTest {
     private static final String LOCALHOST = "http://localhost";
     @LocalServerPort
@@ -46,7 +48,7 @@ class RegistrationTest {
         //when user goes to main page providing his credentials
         ResponseEntity<String> response = restTemplate.withBasicAuth("fancyUsername", "password").getForEntity(baseUri() + "/registered", String.class);
         //then user is authenticated and response doesn't exist
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.FOUND, response.getStatusCode());
         assertEquals("fancyUsername", response.getBody());
     }
 
