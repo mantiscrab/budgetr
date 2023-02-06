@@ -20,3 +20,10 @@ class Authority implements Serializable {
     @Id
     private String authority;
 }
+
+@EqualsAndHashCode
+class AuthorityId implements Serializable {
+    private String authority;
+    private User user;
+}
+
