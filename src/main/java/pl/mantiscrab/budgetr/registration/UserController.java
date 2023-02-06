@@ -29,7 +29,7 @@ class UserController {
     @GetMapping("/username")
     ResponseEntity<String> getUsername() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.status(HttpStatus.FOUND).body(name);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(name);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

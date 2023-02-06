@@ -53,7 +53,7 @@ class RegistrationTest {
                 getUri(on(UserController.class).getUsername()),
                 String.class);
         //then user is authenticated and response doesn't exist
-        assertEquals(HttpStatus.FOUND, usernameResponse.getStatusCode());
+        assertEquals(HttpStatus.ACCEPTED, usernameResponse.getStatusCode());
         assertEquals("fancyUsername", usernameResponse.getBody());
     }
 
