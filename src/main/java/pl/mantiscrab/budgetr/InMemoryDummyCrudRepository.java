@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.repository.CrudRepository;
