@@ -39,36 +39,33 @@ class RegistrationTest {
                 .email("user@user")
                 .username("fancyUsername")
                 .password("password").build();
-        ResponseEntity<UserDto> registerResponse = register(registerRequest);
+        ResponseEntity<UserDto> registerResponse = restTemplate.postForEntity(
+                getUri(on(UserController.class).register(null)),
+                registerRequest,
+                UserDto.class);
         //then user is created
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
         assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
 
         //when user goes to main page providing his credentials
-        ResponseEntity<String> response = restTemplate.withBasicAuth("fancyUsername", "password").getForEntity(baseUri() + "/registered", String.class);
+        ResponseEntity<String> usernameResponse = restTemplate.withBasicAuth("fancyUsername", "password").getForEntity(
+                getUri(on(UserController.class).getUsername()),
+                String.class);
         //then user is authenticated and response doesn't exist
-        assertEquals(HttpStatus.FOUND, response.getStatusCode());
-        assertEquals("fancyUsername", response.getBody());
+        assertEquals(HttpStatus.FOUND, usernameResponse.getStatusCode());
+        assertEquals("fancyUsername", usernameResponse.getBody());
     }
 
     private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registrationResponseEntity, UserRegisterDto registerRequest) {
-        UserDto registrationResponse = extract(registrationResponseEntity);
+        UserDto registrationResponse = registrationResponseEntity.getBody();
         assertEquals(registerRequest.email(), registrationResponse.email());
         assertEquals(registerRequest.username(), registrationResponse.username());
     }
 
-    private UserDto extract(ResponseEntity<UserDto> registerResponse) {
-        return registerResponse.getBody();
-    }
-
-    private ResponseEntity<UserDto> register(UserRegisterDto registerDto) {
-        return restTemplate.postForEntity(registerUri(), registerDto, UserDto.class);
-    }
-
-    private URI registerUri() {
-        return MvcUriComponentsBuilder.relativeTo(baseUriComponentsBuilder()).withMethodCall(on
-                        (UserController.class).register(null))
+    private URI getUri(ResponseEntity<?> invocationInfo) {
+        return MvcUriComponentsBuilder.relativeTo(baseUriComponentsBuilder())
+                .withMethodCall(invocationInfo)
                 .build().toUri();
     }
 

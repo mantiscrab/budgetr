@@ -26,8 +26,8 @@ class UserController {
 
     //    TODO: replace this endpoint in tests with one related
     //    TODO: to business logic and remove
-    @GetMapping("/registered")
-    ResponseEntity<String> get() {
+    @GetMapping("/username")
+    ResponseEntity<String> getUsername() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.status(HttpStatus.FOUND).body(name);
     }
