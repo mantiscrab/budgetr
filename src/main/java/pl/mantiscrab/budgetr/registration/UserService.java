@@ -19,9 +19,9 @@ class UserService {
 
     private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
         if (userRepository.findByEmail(dto.email()).isPresent())
-            throw new UserAlreadyExistsException("User with email \"" + dto.email() + "\" already exist");
+            throw UserAlreadyExistsException.withEmail(dto.email());
         if (userRepository.findByUsername(dto.username()).isPresent())
-            throw new UserAlreadyExistsException("User with username \"" + dto.username() + "\" already exist");
+            throw UserAlreadyExistsException.withUsername(dto.username());
     }
 
     private User createUser(UserRegisterDto dto) {
