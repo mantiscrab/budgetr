@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -37,6 +38,9 @@ class User {
     private Set<Authority> authorities;
 
     void addAuthority(Authority authority) {
+        if (authorities == null) {
+            authorities = new HashSet<>();
+        }
         authorities.add(authority);
     }
 }

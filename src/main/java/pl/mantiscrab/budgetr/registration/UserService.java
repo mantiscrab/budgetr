@@ -5,8 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
-import java.util.HashSet;
-
 @AllArgsConstructor
 class UserService {
     private final PasswordEncoder passwordEncoder;
@@ -32,7 +30,6 @@ class UserService {
                 .email(dto.email())
                 .username(dto.username())
                 .password(encodedPassword)
-                .authorities(new HashSet<>())
                 .enabled(true)
                 .build();
         Authority userAuthority = new Authority(user, "ROLE_USER");
