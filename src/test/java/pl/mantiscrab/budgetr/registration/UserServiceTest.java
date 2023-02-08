@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.mantiscrab.budgetr.registration.UserTestDataProvider.sampleRegisterDto;
 
 class UserServiceTest {
@@ -14,7 +15,7 @@ class UserServiceTest {
 
     @BeforeEach
     void init() {
-        userService = new UserConfig().userService();
+        userService = UserTestConfig.userService();
     }
 
     @Test
