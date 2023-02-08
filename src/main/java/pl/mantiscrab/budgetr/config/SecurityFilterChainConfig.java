@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-class SecurityFilterChainConfig {
+public class SecurityFilterChainConfig {
 
     public HttpSecurity httpSecurityCommons(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
@@ -28,17 +28,6 @@ class SecurityFilterChainConfig {
         http.httpBasic();
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
-        return http.build();
-    }
-
-    @Bean
-    @Profile("test")
-    public SecurityFilterChain filterChainTest(HttpSecurity http) throws Exception {
-        http = httpSecurityCommons(http);
-        http.authorizeHttpRequests(requests -> requests
-                .anyRequest().authenticated());
-        http.httpBasic();
-        http.csrf().disable();
         return http.build();
     }
 }

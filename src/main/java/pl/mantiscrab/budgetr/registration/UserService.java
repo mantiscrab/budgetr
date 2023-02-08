@@ -16,7 +16,7 @@ class UserService {
         throwExceptionIfUserAlreadyExists(dto);
         User user = createUser(dto);
         User savedUser = userRepository.save(user);
-        return UserMapper.userDtoFromUser(savedUser);
+        return userDtoFromUser(savedUser);
     }
 
     private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
@@ -38,5 +38,9 @@ class UserService {
         Authority userAuthority = new Authority(user, "ROLE_USER");
         user.addAuthority(userAuthority);
         return user;
+    }
+
+    static UserDto userDtoFromUser(User user) {
+        return new UserDto(user.getEmail(), user.getUsername());
     }
 }
