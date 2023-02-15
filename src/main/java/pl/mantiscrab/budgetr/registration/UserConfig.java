@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-class UserModuleConfig {
+class UserConfig {
     @Bean
-    UserService userService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    UserService userService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         return new UserService(passwordEncoder, userRepository);
     }
 }

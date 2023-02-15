@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-class InMemoryDummyCrudRepository<T, ID> implements CrudRepository<T, ID> {
+public class InMemoryDummyCrudRepository<T, ID> implements CrudRepository<T, ID> {
     protected final Map<ID, T> map;
     protected Long index;
 
-    InMemoryDummyCrudRepository() {
+    public InMemoryDummyCrudRepository() {
         this.map = new HashMap<>();
         this.index = 1L;
     }

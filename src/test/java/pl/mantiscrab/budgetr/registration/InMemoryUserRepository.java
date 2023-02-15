@@ -1,20 +1,18 @@
 package pl.mantiscrab.budgetr.registration;
 
+import org.springframework.dao.DataIntegrityViolationException;
+
 import java.util.Objects;
 import java.util.Optional;
 
-class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, Long> implements UserRepository{
+class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, String> implements UserRepository{
     @Override
     public <S extends User> S save(S user) {
-        if (user.getId() == null) {
-            user = (S) setIndexAsId(user);
-        }
-        map.put(index, user);
+        if(findByEmail(user.getEmail()).isPresent())
+            throw new DataIntegrityViolationException(
+                    "User with email: \"" + user.getEmail() + "\" already exists");
+        map.put(user.getUsername(), user);
         return user;
-    }
-
-    private <S extends User> User setIndexAsId(S user) {
-        return new User(index++, user.getEmail(), user.getUsername(), user.getPassword());
     }
 
     @Override

@@ -12,10 +12,9 @@ class UserService {
 
     UserDto register(UserRegisterDto dto) {
         throwExceptionIfUserAlreadyExists(dto);
-        User user = mapUserDtoToUser(dto);
+        User user = createUser(dto);
         User savedUser = userRepository.save(user);
-        UserDto savedUserDto = UserMapper.userDtoFromUser(savedUser);
-        return savedUserDto;
+        return userDtoFromUser(savedUser);
     }
 
     private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
@@ -25,15 +24,20 @@ class UserService {
             throw new UserAlreadyExistsException("User with username \"" + dto.username() + "\" already exist");
     }
 
-    private User mapUserDtoToUser(UserRegisterDto dto) {
-        UserRegisterDto dtoWithEncodedPassword = encodePassword(dto);
-        User user = UserMapper.userFromUserRegisterDto(dtoWithEncodedPassword);
+    private User createUser(UserRegisterDto dto) {
+        String encodedPassword = passwordEncoder.encode(dto.password());
+        User user = User.builder()
+                .email(dto.email())
+                .username(dto.username())
+                .password(encodedPassword)
+                .enabled(true)
+                .build();
+        Authority userAuthority = new Authority(user, "ROLE_USER");
+        user.addAuthority(userAuthority);
         return user;
     }
 
-    private UserRegisterDto encodePassword(UserRegisterDto registrationDto) {
-        return new UserRegisterDto(registrationDto.email(),
-                registrationDto.username(),
-                passwordEncoder.encode(registrationDto.password()));
+    static UserDto userDtoFromUser(User user) {
+        return new UserDto(user.getEmail(), user.getUsername());
     }
 }
