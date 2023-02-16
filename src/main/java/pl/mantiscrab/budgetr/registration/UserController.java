@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import pl.mantiscrab.budgetr.registration.dto.UserDto;
 import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
-import pl.mantiscrab.budgetr.registration.exception.ConstraintViolation;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -30,13 +30,5 @@ class UserController {
     ResponseEntity<String> getUsername() {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(name);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    List<ConstraintViolation> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        return ex.getBindingResult().getFieldErrors()
-                .stream()
-                .map(fieldError -> new ConstraintViolation(fieldError.getField(), fieldError.getDefaultMessage()))
-                .toList();
     }
 }

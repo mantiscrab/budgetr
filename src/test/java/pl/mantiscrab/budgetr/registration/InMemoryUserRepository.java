@@ -1,6 +1,7 @@
 package pl.mantiscrab.budgetr.registration;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import pl.mantiscrab.budgetr.InMemoryDummyCrudRepository;
 
 import java.util.Objects;
 import java.util.Optional;
