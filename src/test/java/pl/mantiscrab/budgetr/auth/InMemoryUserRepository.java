@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import pl.mantiscrab.budgetr.InMemoryDummyCrudRepository;
@@ -6,7 +6,7 @@ import pl.mantiscrab.budgetr.InMemoryDummyCrudRepository;
 import java.util.Objects;
 import java.util.Optional;
 
-class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, String> implements UserRepository{
+class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, String> implements UserRepository {
     @Override
     public <S extends User> S save(S user) {
         if(findByEmail(user.getEmail()).isPresent())

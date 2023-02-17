@@ -1,6 +1,6 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
-import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
+import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 class UserTestDataProvider {
     public static UserRegisterDto.UserRegisterDtoBuilder sampleRegisterDto() {

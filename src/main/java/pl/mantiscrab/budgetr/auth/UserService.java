@@ -1,9 +1,9 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.mantiscrab.budgetr.registration.dto.UserDto;
-import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
+import pl.mantiscrab.budgetr.auth.dto.UserDto;
+import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 @AllArgsConstructor
 class UserService {

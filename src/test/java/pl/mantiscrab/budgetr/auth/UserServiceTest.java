@@ -1,14 +1,14 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import pl.mantiscrab.budgetr.registration.dto.UserDto;
-import pl.mantiscrab.budgetr.registration.dto.UserRegisterDto;
+import pl.mantiscrab.budgetr.auth.dto.UserDto;
+import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static pl.mantiscrab.budgetr.registration.UserTestDataProvider.sampleRegisterDto;
+import static pl.mantiscrab.budgetr.auth.UserTestDataProvider.sampleRegisterDto;
 
 class UserServiceTest {
     private UserService userService;

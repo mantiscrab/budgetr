@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
 
 import org.springframework.data.repository.CrudRepository;

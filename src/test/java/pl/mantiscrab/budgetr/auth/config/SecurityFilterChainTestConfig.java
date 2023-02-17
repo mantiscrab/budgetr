@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.config;
+package pl.mantiscrab.budgetr.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

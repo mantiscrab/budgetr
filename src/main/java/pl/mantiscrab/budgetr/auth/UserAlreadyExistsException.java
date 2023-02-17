@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.registration;
+package pl.mantiscrab.budgetr.auth;
 
 import org.springframework.http.HttpStatus;
 import pl.mantiscrab.budgetr.BudgetrException;
