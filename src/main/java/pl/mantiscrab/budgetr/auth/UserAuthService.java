@@ -6,27 +6,27 @@ import pl.mantiscrab.budgetr.auth.dto.UserDto;
 import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 @AllArgsConstructor
-class UserService {
+class UserAuthService {
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
+    private final UserAuthRepository userAuthRepository;
 
     UserDto register(UserRegisterDto dto) {
         throwExceptionIfUserAlreadyExists(dto);
-        User user = createUser(dto);
-        User savedUser = userRepository.save(user);
+        UserAuth user = createUser(dto);
+        UserAuth savedUser = userAuthRepository.save(user);
         return userDtoFromUser(savedUser);
     }
 
     private void throwExceptionIfUserAlreadyExists(UserRegisterDto dto) {
-        if (userRepository.findByEmail(dto.email()).isPresent())
+        if (userAuthRepository.findByEmail(dto.email()).isPresent())
             throw UserAlreadyExistsException.withEmail(dto.email());
-        if (userRepository.findByUsername(dto.username()).isPresent())
+        if (userAuthRepository.findByUsername(dto.username()).isPresent())
             throw UserAlreadyExistsException.withUsername(dto.username());
     }
 
-    private User createUser(UserRegisterDto dto) {
+    private UserAuth createUser(UserRegisterDto dto) {
         String encodedPassword = passwordEncoder.encode(dto.password());
-        User user = User.builder()
+        UserAuth user = UserAuth.builder()
                 .email(dto.email())
                 .username(dto.username())
                 .password(encodedPassword)
@@ -37,7 +37,7 @@ class UserService {
         return user;
     }
 
-    static UserDto userDtoFromUser(User user) {
+    static UserDto userDtoFromUser(UserAuth user) {
         return new UserDto(user.getEmail(), user.getUsername());
     }
 }

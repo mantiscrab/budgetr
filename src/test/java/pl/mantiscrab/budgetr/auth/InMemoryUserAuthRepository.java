@@ -6,9 +6,9 @@ import pl.mantiscrab.budgetr.InMemoryDummyCrudRepository;
 import java.util.Objects;
 import java.util.Optional;
 
-class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, String> implements UserRepository {
+class InMemoryUserAuthRepository extends InMemoryDummyCrudRepository<UserAuth, String> implements UserAuthRepository {
     @Override
-    public <S extends User> S save(S user) {
+    public <S extends UserAuth> S save(S user) {
         if(findByEmail(user.getEmail()).isPresent())
             throw new DataIntegrityViolationException(
                     "User with email: \"" + user.getEmail() + "\" already exists");
@@ -17,14 +17,14 @@ class InMemoryUserRepository extends InMemoryDummyCrudRepository<User, String> i
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<UserAuth> findByEmail(String email) {
         return map.values().stream()
                 .filter(user -> Objects.equals(user.getEmail(), email))
                 .findFirst();
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
+    public Optional<UserAuth> findByUsername(String username) {
         return map.values().stream()
                 .filter(user -> Objects.equals(user.getUsername(), username))
                 .findFirst();

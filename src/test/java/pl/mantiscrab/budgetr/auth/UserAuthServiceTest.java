@@ -10,12 +10,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static pl.mantiscrab.budgetr.auth.UserTestDataProvider.sampleRegisterDto;
 
-class UserServiceTest {
-    private UserService userService;
+class UserAuthServiceTest {
+    private UserAuthService userAuthService;
 
     @BeforeEach
     void init() {
-        userService = UserTestConfig.userService();
+        userAuthService = UserTestConfig.userService();
     }
 
     @Test
@@ -24,7 +24,7 @@ class UserServiceTest {
         //given
         UserRegisterDto registerDto = sampleRegisterDto().email("user@user").build();
         //when
-        UserDto userDto = userService.register(registerDto);
+        UserDto userDto = userAuthService.register(registerDto);
         //then
         assertEquals(registerDto.email(), userDto.email());
         assertEquals(registerDto.username(), userDto.username());
@@ -34,9 +34,9 @@ class UserServiceTest {
     @DisplayName("Should throw exception when registering user and user with same email exist")
     void shouldThrowExceptionWhenRegisterAndUserWithSameEmailExists() {
         //given
-        userService.register(sampleRegisterDto().email("user@user").build());
+        userAuthService.register(sampleRegisterDto().email("user@user").build());
         //when-then
-        assertThrows(UserAlreadyExistsException.class, () -> userService.register(sampleRegisterDto().email("user@user").build()));
+        assertThrows(UserAlreadyExistsException.class, () -> userAuthService.register(sampleRegisterDto().email("user@user").build()));
         System.out.println();
     }
 
@@ -44,9 +44,9 @@ class UserServiceTest {
     @DisplayName("Should throw exception when registering user and user with same email exist")
     void shouldThrowExceptionWhenRegisterAndUserWithSameUsernameExists() {
         //given
-        userService.register(sampleRegisterDto().email("firstUser@user").username("username").build());
+        userAuthService.register(sampleRegisterDto().email("firstUser@user").username("username").build());
         //when-then
         assertThrows(UserAlreadyExistsException.class,
-                () -> userService.register(sampleRegisterDto().email("secondUser@user").username("username").build()));
+                () -> userAuthService.register(sampleRegisterDto().email("secondUser@user").username("username").build()));
     }
 }

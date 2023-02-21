@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 @RestController
 class UserController {
-    private final UserService service;
+    private final UserAuthService service;
 
     @PostMapping("/register")
     ResponseEntity<UserDto> register(@Valid @RequestBody UserRegisterDto userRegisterDto) {

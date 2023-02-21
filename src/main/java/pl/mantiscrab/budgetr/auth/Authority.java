@@ -16,7 +16,7 @@ class Authority implements Serializable {
     @Id
     @JoinColumn(name = "username")
     @ManyToOne
-    private User user;
+    private UserAuth user;
     @Id
     private String authority;
 }
@@ -24,6 +24,6 @@ class Authority implements Serializable {
 @EqualsAndHashCode
 class AuthorityId implements Serializable {
     private String authority;
-    private User user;
+    private UserAuth user;
 }
 

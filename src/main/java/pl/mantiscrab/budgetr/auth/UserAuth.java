@@ -15,7 +15,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "users")
-class User {
+class UserAuth {
     @Id
     @Column(nullable = false)
     @NotBlank
