@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.registration.dto;
+package pl.mantiscrab.budgetr.auth.dto;
 
 import lombok.Builder;
 
