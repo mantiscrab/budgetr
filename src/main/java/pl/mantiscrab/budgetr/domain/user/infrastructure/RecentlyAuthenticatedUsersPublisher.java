@@ -14,7 +14,7 @@ public abstract class RecentlyAuthenticatedUsersPublisher {
         subscribers.add(subscriber);
     }
 
-    public void inform(RecentlyAuthenticatedUser user){
+    public void notify(RecentlyAuthenticatedUser user){
         for (RecentlyAuthenticatedUsersSubscriber subscriber : subscribers) {
             subscriber.userHasBeenAuthenticated(user);
         }

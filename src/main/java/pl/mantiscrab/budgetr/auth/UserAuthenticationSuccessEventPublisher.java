@@ -21,7 +21,7 @@ class UserAuthenticationSuccessEventPublisher extends RecentlyAuthenticatedUsers
             UserAuth user = optionalUser.get();
             RecentlyAuthenticatedUserImpl authenticatedUser =
                     new RecentlyAuthenticatedUserImpl(user.getUsername(), user.getEmail());
-            this.inform(authenticatedUser);
+            this.notify(authenticatedUser);
         }
     }
 }
