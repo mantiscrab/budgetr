@@ -6,12 +6,12 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter(AccessLevel.PACKAGE)
 @Entity
 @Table(name = "budgetr_users")
-class User {
+public class User {
     @Id
     @Column(nullable = false)
     @NotBlank
