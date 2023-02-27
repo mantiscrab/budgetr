@@ -5,7 +5,7 @@ import pl.mantiscrab.budgetr.domain.user.infrastructure.SignedInUsernameGetter;
 
 
 @Service
-public class SignedInUsernameGetterImpl implements SignedInUsernameGetter {
+class DummySignedInUsernameGetterImpl implements SignedInUsernameGetter {
     @Override
     public String getUsername() {
         return "mantiscrab";
