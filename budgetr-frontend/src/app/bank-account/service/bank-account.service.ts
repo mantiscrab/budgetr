@@ -14,12 +14,14 @@ export class BankAccountService {
   constructor(private httpClient: HttpClient) { }
 
   getAccounts(): Observable<BankAccount[]> {
-    return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
-      map(response => response.bankAccountDtos)
-    );
+    return this.httpClient.get<BankAccount[]>(this.baseUrl)
+    // .pipe(
+    //   map(response => response.bankAccounts)
+    // )
+    ;
   }
 }
 
 interface GetResponse {
-  bankAccountDtos: BankAccount[]
+  bankAccounts: BankAccount[]
 }

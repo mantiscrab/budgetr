@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mantiscrab.budgetr.domain.bankaccount.BankAccountService;
-import pl.mantiscrab.budgetr.domain.bankaccount.BankAccounts;
+import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
+
+import java.util.List;
 
 @AllArgsConstructor
 @CrossOrigin
@@ -17,8 +19,8 @@ class BankAccountController {
     private final BankAccountService accountService;
 
     @GetMapping
-    ResponseEntity<BankAccounts> getAccounts() {
-        BankAccounts bankAccounts = new BankAccounts(accountService.getAccounts());
-        return ResponseEntity.ok(bankAccounts);
+    ResponseEntity<List<BankAccountDto>> getAccounts() {
+//        BankAccounts bankAccounts = new BankAccounts(accountService.getAccounts());
+        return ResponseEntity.ok(accountService.getAccounts());
     }
 }
