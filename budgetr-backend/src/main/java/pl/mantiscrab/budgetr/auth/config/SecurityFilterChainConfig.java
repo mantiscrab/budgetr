@@ -28,6 +28,17 @@ class SecurityFilterChainConfig {
         http.httpBasic();
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
+//        http.cors(Customizer.withDefaults());
         return http.build();
     }
+
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
