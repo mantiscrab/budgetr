@@ -8,14 +8,14 @@ import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static pl.mantiscrab.budgetr.auth.UserTestDataProvider.sampleRegisterDto;
+import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegisterDto;
 
 class UserAuthServiceTest {
     private UserAuthService userAuthService;
 
     @BeforeEach
     void init() {
-        userAuthService = UserTestConfig.userService();
+        userAuthService = UserAuthTestConfig.userService();
     }
 
     @Test

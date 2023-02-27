@@ -19,7 +19,7 @@ import java.net.URI;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
-import static pl.mantiscrab.budgetr.auth.UserTestDataProvider.sampleRegisterDto;
+import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegisterDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
