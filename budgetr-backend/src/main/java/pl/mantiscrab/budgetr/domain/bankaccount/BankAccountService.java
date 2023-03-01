@@ -6,6 +6,7 @@ import pl.mantiscrab.budgetr.domain.user.SignedInUserGetter;
 import pl.mantiscrab.budgetr.domain.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public class BankAccountService {
@@ -19,6 +20,10 @@ public class BankAccountService {
                         bankAccount.getId(),
                         bankAccount.getName(),
                         bankAccount.getInitialBalance())).toList();
+    }
+
+    public Optional<BankAccountDto> getAccount(Long id) {
+        return Optional.empty();
     }
 
     public BankAccountDto createBankAccount(BankAccountDto newBankAccount) {

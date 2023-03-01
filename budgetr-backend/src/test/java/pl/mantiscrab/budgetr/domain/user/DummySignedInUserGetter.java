@@ -14,7 +14,7 @@ public class DummySignedInUserGetter implements SignedInUserGetter {
         return signedInUser;
     }
 
-    void setSignedInUser(User signedInUser) {
+    public void setSignedInUser(User signedInUser) {
         this.signedInUser = signedInUser;
     }
 }
