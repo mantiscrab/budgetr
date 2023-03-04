@@ -10,12 +10,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import pl.mantiscrab.budgetr.MvcUriComponentsBuilderRelativeToBaseProvider;
+import pl.mantiscrab.budgetr.UriProvider;
 import pl.mantiscrab.budgetr.auth.dto.UserDto;
 import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
-
-import java.net.URI;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -29,11 +26,13 @@ class RegistrationTest {
     private int port;
     @Autowired
     TestRestTemplate restTemplate;
-    MvcUriComponentsBuilderRelativeToBaseProvider mvcUriComponentsBuilderRelativeToBaseProvider;
+    RegistrationHelper registrationHelper;
+    UriProvider uriProvider;
 
     @BeforeEach
     void initialize() {
-        mvcUriComponentsBuilderRelativeToBaseProvider = new MvcUriComponentsBuilderRelativeToBaseProvider(port);
+        registrationHelper = new RegistrationHelper(restTemplate, port);
+        uriProvider = new UriProvider(port);
     }
 
 
@@ -46,19 +45,17 @@ class RegistrationTest {
                 .email("user@user")
                 .username("fancyUsername")
                 .password("password").build();
-        ResponseEntity<UserDto> registerResponse = restTemplate.postForEntity(
-                getUri(on(UserController.class).register(null)),
-                registerRequest,
-                UserDto.class);
+        ResponseEntity<UserDto> registerResponse = registrationHelper.registerUser(registerRequest);
         //then user is created
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
         assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
 
         //when user goes to main page providing his credentials
-        ResponseEntity<String> usernameResponse = restTemplate.withBasicAuth("fancyUsername", "password").getForEntity(
-                getUri(on(UserController.class).getUsername()),
-                String.class);
+        ResponseEntity<String> usernameResponse = restTemplate.withBasicAuth("fancyUsername", "password")
+                .getForEntity(
+                        uriProvider.getUriOn(on(UserController.class).getUsername()),
+                        String.class);
         //then user is authenticated and response doesn't exist
         assertEquals(HttpStatus.ACCEPTED, usernameResponse.getStatusCode());
         assertEquals("fancyUsername", usernameResponse.getBody());
@@ -68,13 +65,5 @@ class RegistrationTest {
         UserDto registrationResponse = registrationResponseEntity.getBody();
         assertEquals(registerRequest.email(), registrationResponse.email());
         assertEquals(registerRequest.username(), registrationResponse.username());
-    }
-
-    private URI getUri(ResponseEntity<?> invocationInfo) {
-        MvcUriComponentsBuilder mvcUriComponentsBuilderRelativeToBaseUri =
-                mvcUriComponentsBuilderRelativeToBaseProvider.get();
-        return mvcUriComponentsBuilderRelativeToBaseUri
-                .withMethodCall(invocationInfo)
-                .build().toUri();
     }
 }
