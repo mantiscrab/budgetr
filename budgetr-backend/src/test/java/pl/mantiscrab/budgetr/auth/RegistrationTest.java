@@ -1,5 +1,6 @@
 package pl.mantiscrab.budgetr.auth;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
+import pl.mantiscrab.budgetr.MvcUriComponentsBuilderRelativeToBaseProvider;
 import pl.mantiscrab.budgetr.auth.dto.UserDto;
 import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
@@ -24,11 +25,17 @@ import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegister
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
 class RegistrationTest {
-    private static final String LOCALHOST = "http://localhost";
     @LocalServerPort
     private int port;
     @Autowired
     TestRestTemplate restTemplate;
+    MvcUriComponentsBuilderRelativeToBaseProvider mvcUriComponentsBuilderRelativeToBaseProvider;
+
+    @BeforeEach
+    void initialize() {
+        mvcUriComponentsBuilderRelativeToBaseProvider = new MvcUriComponentsBuilderRelativeToBaseProvider(port);
+    }
+
 
     @Test
     @DisplayName("Should register user when user with same email and username doesn't exist yet")
@@ -64,16 +71,10 @@ class RegistrationTest {
     }
 
     private URI getUri(ResponseEntity<?> invocationInfo) {
-        return MvcUriComponentsBuilder.relativeTo(baseUriComponentsBuilder())
+        MvcUriComponentsBuilder mvcUriComponentsBuilderRelativeToBaseUri =
+                mvcUriComponentsBuilderRelativeToBaseProvider.get();
+        return mvcUriComponentsBuilderRelativeToBaseUri
                 .withMethodCall(invocationInfo)
                 .build().toUri();
-    }
-
-    private UriComponentsBuilder baseUriComponentsBuilder() {
-        return UriComponentsBuilder.fromUriString(baseUri());
-    }
-
-    private String baseUri() {
-        return LOCALHOST + ":" + port;
     }
 }
