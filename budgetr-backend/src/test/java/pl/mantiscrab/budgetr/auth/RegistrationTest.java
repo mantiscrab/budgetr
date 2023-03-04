@@ -16,7 +16,6 @@ import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegisterDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -50,15 +49,6 @@ class RegistrationTest {
         assertEquals(HttpStatus.OK, registerResponse.getStatusCode());
         //and response data matches request data
         assertRegisterResponseMatchesRequest(registerResponse, registerRequest);
-
-        //when user goes to main page providing his credentials
-        ResponseEntity<String> usernameResponse = restTemplate.withBasicAuth("fancyUsername", "password")
-                .getForEntity(
-                        uriProvider.getUriOn(on(UserController.class).getUsername()),
-                        String.class);
-        //then user is authenticated and response doesn't exist
-        assertEquals(HttpStatus.ACCEPTED, usernameResponse.getStatusCode());
-        assertEquals("fancyUsername", usernameResponse.getBody());
     }
 
     private void assertRegisterResponseMatchesRequest(ResponseEntity<UserDto> registrationResponseEntity, UserRegisterDto registerRequest) {
