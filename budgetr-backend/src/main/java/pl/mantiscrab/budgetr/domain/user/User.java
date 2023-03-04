@@ -13,8 +13,9 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder()
 @Getter(AccessLevel.PACKAGE)
+@EqualsAndHashCode
 @Entity
-@Table(name = "budgetr_users")
+@Table(name = "BUDGETR_USERS")
 public class User {
     @Id
     @Column(nullable = false)

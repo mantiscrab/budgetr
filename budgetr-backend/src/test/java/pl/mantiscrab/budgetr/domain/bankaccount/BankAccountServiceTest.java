@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.BankAccountWithSameNameAlreadyExistsException;
+import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.OperationNotAllowedException;
 import pl.mantiscrab.budgetr.domain.user.DummySignedInUserGetter;
 import pl.mantiscrab.budgetr.domain.user.User;
 
@@ -31,15 +32,15 @@ class BankAccountServiceTest {
         User user1 = sampleUser().username("user1").email("user1@email.com").build();
         User user2 = sampleUser().username("user2").email("user2@email.com").build();
         userGetter.setSignedInUser(user1);
-        BankAccountDto user1BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().name("User1 Bank Account no.1").build());
-        BankAccountDto user1BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().name("User1 Bank Account no.2").build());
+        BankAccountDto user1BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User1 Bank Account no.1").build());
+        BankAccountDto user1BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User1 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser1 = List.of(
                 user1BankAccountNo1,
                 user1BankAccountNo2
         );
         userGetter.setSignedInUser(user2);
-        BankAccountDto user2BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().name("User2 Bank Account no.1").build());
-        BankAccountDto user2BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().name("User2 Bank Account no.2").build());
+        BankAccountDto user2BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User2 Bank Account no.1").build());
+        BankAccountDto user2BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User2 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser2 = List.of(
                 user2BankAccountNo1,
                 user2BankAccountNo2
@@ -103,7 +104,7 @@ class BankAccountServiceTest {
         //given
         BankAccountDto bankAccount = sampleBankAccountDto().id(1L).build();
         //when--then
-        Assertions.assertThrows(BankAccountWithSameNameAlreadyExistsException.class,
+        Assertions.assertThrows(OperationNotAllowedException.class,
                 () -> bankAccountService.createBankAccount(bankAccount));
     }
 }

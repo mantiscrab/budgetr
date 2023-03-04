@@ -1,9 +1,6 @@
 package pl.mantiscrab.budgetr.domain.bankaccount;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.mantiscrab.budgetr.domain.user.User;
 
 import javax.persistence.*;
@@ -13,15 +10,17 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter(AccessLevel.PACKAGE)
 @Entity
+@Table(name = "BANK_ACCOUNT")
 public class BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.PACKAGE)
     private Long id;
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "USERNAME")
     private User user;
     private BigDecimal initialBalance;
 }
