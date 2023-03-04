@@ -4,6 +4,7 @@ import lombok.*;
 import pl.mantiscrab.budgetr.domain.user.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @AllArgsConstructor
@@ -22,5 +23,6 @@ public class BankAccount {
     @ManyToOne
     @JoinColumn(name = "USERNAME")
     private User user;
+    @Digits(integer = 19, fraction = 2)
     private BigDecimal initialBalance;
 }

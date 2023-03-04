@@ -10,7 +10,7 @@ import java.net.URI;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
-class RegistrationHelper {
+public class RegistrationHelper {
     private final TestRestTemplate restTemplate;
     private final UriProvider uriProvider;
 
