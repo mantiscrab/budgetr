@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BankAccount } from '../../common/bank-account';
-import { BankAccountService } from '../../service/bank-account.service';
+import { BankAccountsService } from '../../service/bank-accounts.service';
 
 @Component({
   selector: 'app-bank-accounts',
@@ -10,7 +10,7 @@ import { BankAccountService } from '../../service/bank-account.service';
 export class BankAccountsComponent implements OnInit {
   accounts: BankAccount[] = [];
 
-  constructor(private bankAccountService: BankAccountService) { }
+  constructor(private bankAccountService: BankAccountsService) { }
 
   ngOnInit(): void {
     this.bankAccountService.getAccounts().subscribe(

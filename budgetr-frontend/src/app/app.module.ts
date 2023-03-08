@@ -2,19 +2,27 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BankAccountsComponent } from './bank-account/component/bank-accounts/bank-accounts.component';
+import { BankAccountComponent } from './bank-account/component/bank-account/bank-account.component';
+import { Route, RouterModule } from '@angular/router';
 import { BankAccountService } from './bank-account/service/bank-account.service';
+import { BankAccountsService } from './bank-account/service/bank-accounts.service';
+
+const routes: Route[] = [
+  { path: 'bank-accounts/:id', component: BankAccountComponent },
+  { path: 'bank-accounts', component: BankAccountsComponent }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    BankAccountsComponent
+    BankAccountsComponent,
+    BankAccountComponent
   ],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule
   ],
   providers: [],

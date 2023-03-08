@@ -1,3 +1,18 @@
-<h1>App component</h1>
-
-<app-bank-accounts></app-bank-accounts>
+<div class="container">
+    <div class="row text-center text-white bg-success">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 text-center">
+            <ul class="list-unstyled">
+                <li><a routerLink="/bank-accounts" routerLinkActive="font-weight: bold">Accounts</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Import</a></li>
+                <li><a href="#">Budget</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 px-0">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

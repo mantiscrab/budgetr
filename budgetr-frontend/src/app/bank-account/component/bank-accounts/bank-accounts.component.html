@@ -1,5 +1,23 @@
-<p>bank-accounts works!</p>
-
-<p *ngFor="let account of accounts">
-    {{account.id}} {{account.name}}
-</p>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let account of accounts" [ngClass]="{'millennium': account.name === 'MILLENNIUM'}">
+            <td>
+                <a routerLink="{{account.id}}">
+                    {{account.id}}
+                </a>
+            </td>
+            <td>{{account.name}}</td>
+            <td *ngIf="account.name === 'PKOBP'; else myElseBlock">{{account.name}} ten bez żubra</td>
+            <ng-template #myElseBlock>
+                <td>{{account.name}}</td>
+            </ng-template>
+        </tr>
+    </tbody>
+</table>

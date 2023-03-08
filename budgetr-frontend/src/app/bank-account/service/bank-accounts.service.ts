@@ -6,14 +6,13 @@ import { BankAccount } from '../common/bank-account';
 @Injectable({
   providedIn: 'root'
 })
-export class BankAccountService {
-
-  constructor(private httpClient: HttpClient) { }
+export class BankAccountsService {
 
   private baseUrl = 'http://localhost:8080/bank-accounts'
 
-  getAccount(bankAccountId: number): Observable<BankAccount> {
-    const searchUrl = `${this.baseUrl}/${bankAccountId}`;
-    return this.httpClient.get<BankAccount>(searchUrl);
+  constructor(private httpClient: HttpClient) { }
+
+  getAccounts(): Observable<BankAccount[]> {
+    return this.httpClient.get<BankAccount[]>(this.baseUrl);
   }
 }
