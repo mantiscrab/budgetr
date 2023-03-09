@@ -10,4 +10,9 @@ class UserAuthConfig {
     UserAuthService userAuthService(PasswordEncoder passwordEncoder, UserAuthRepository userAuthRepository) {
         return new UserAuthService(passwordEncoder, userAuthRepository);
     }
+
+    @Bean
+    SecurityContextSignedInUsernameProvider securityContextSignedInUsernameGetter() {
+        return new SecurityContextSignedInUsernameProvider();
+    }
 }
