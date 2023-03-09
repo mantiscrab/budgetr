@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder()
+@Builder
 @Getter(AccessLevel.PACKAGE)
 @EqualsAndHashCode
 @Entity

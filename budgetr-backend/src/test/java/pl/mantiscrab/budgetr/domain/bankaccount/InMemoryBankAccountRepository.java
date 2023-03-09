@@ -6,6 +6,8 @@ import pl.mantiscrab.budgetr.domain.user.User;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 class InMemoryBankAccountRepository extends InMemoryDummyCrudRepository<BankAccount, Long> implements BankAccountRepository {
     @Override
@@ -40,10 +42,10 @@ class InMemoryBankAccountRepository extends InMemoryDummyCrudRepository<BankAcco
     }
 
     @Override
-    public Optional<BankAccount> findByUserAndName(User user, String name) {
+    public Set<BankAccount> findByUserAndName(User user, String name) {
         return map.values().parallelStream()
                 .filter(bankAccount -> bankAccount.getUser().equals(user)
                         && Objects.equals(bankAccount.getName(), name))
-                .findFirst();
+                .collect(Collectors.toSet());
     }
 }

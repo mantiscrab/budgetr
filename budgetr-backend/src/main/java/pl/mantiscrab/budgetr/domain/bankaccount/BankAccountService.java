@@ -9,6 +9,7 @@ import pl.mantiscrab.budgetr.domain.user.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @AllArgsConstructor
 public class BankAccountService {
@@ -33,10 +34,10 @@ public class BankAccountService {
         }
         String newAccountName = newBankAccount.name();
         User user = userGetter.getUser();
-        accountRepository.findByUserAndName(user, newAccountName)
-                .ifPresent(bankAccount -> {
-                    throw BankAccountWithSameNameAlreadyExistsException.withName(newBankAccount.name());
-                });
+        Set<BankAccount> bankAccountsByUserAndName = accountRepository.findByUserAndName(user, newAccountName);
+        if (!bankAccountsByUserAndName.isEmpty()) {
+            throw BankAccountWithSameNameAlreadyExistsException.withName(newBankAccount.name());
+        }
         BankAccount bankAccount = mapBankAccountDtoToBankAccount(newBankAccount, user);
         BankAccount savedBankAccount = accountRepository.save(bankAccount);
         return mapBankAccountToBankAccountDto(savedBankAccount);
