@@ -3,7 +3,7 @@ package pl.mantiscrab.budgetr.domain.user;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.mantiscrab.budgetr.domain.user.infrastructure.RecentlyAuthenticatedUsersPublisher;
-import pl.mantiscrab.budgetr.domain.user.infrastructure.SignedInUsernameGetter;
+import pl.mantiscrab.budgetr.domain.user.infrastructure.SignedInUsernameProvider;
 
 @Configuration
 class UserConfig {
@@ -15,7 +15,7 @@ class UserConfig {
     }
 
     @Bean
-    SignedInUserGetter signedInUserGetter(final SignedInUsernameGetter usernameGetter, final UserRepository userRepository) {
-        return new SignedInUserGetterImpl(usernameGetter, userRepository);
+    SignedInUserProvider signedInUserGetter(final SignedInUsernameProvider usernameGetter, final UserRepository userRepository) {
+        return new SignedInUserProviderImpl(usernameGetter, userRepository);
     }
 }

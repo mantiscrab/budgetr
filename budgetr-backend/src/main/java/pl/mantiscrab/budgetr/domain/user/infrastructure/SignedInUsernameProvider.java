@@ -1,5 +1,5 @@
 package pl.mantiscrab.budgetr.domain.user.infrastructure;
 
-public interface SignedInUsernameGetter {
+public interface SignedInUsernameProvider {
     String getUsername() throws UserNotAuthenticatedException;
 }

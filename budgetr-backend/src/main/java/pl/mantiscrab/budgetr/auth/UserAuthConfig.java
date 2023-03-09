@@ -12,7 +12,7 @@ class UserAuthConfig {
     }
 
     @Bean
-    SecurityContextSignedInUsernameGetter securityContextSignedInUsernameGetter() {
-        return new SecurityContextSignedInUsernameGetter();
+    SecurityContextSignedInUsernameProvider securityContextSignedInUsernameGetter() {
+        return new SecurityContextSignedInUsernameProvider();
     }
 }

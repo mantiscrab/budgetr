@@ -1,5 +1,5 @@
 package pl.mantiscrab.budgetr.domain.user;
 
-public interface SignedInUserGetter {
+public interface SignedInUserProvider {
     User getUser();
 }

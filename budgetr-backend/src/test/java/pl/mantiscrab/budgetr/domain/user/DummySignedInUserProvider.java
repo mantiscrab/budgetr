@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class DummySignedInUserGetter implements SignedInUserGetter {
+public class DummySignedInUserProvider implements SignedInUserProvider {
 
     private User signedInUser;
 
