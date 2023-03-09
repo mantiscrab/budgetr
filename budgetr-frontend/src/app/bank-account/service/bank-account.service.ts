@@ -10,7 +10,7 @@ export class BankAccountService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private baseUrl = 'http://localhost:8080/bank-accounts'
+  private baseUrl = 'http://localhost:8080/bank-account'
 
   getAccount(bankAccountId: number): Observable<BankAccount> {
     const searchUrl = `${this.baseUrl}/${bankAccountId}`;

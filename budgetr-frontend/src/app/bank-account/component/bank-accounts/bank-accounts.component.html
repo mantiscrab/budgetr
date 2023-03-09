@@ -9,7 +9,7 @@
     <tbody>
         <tr *ngFor="let account of accounts" [ngClass]="{'millennium': account.name === 'MILLENNIUM'}">
             <td>
-                <a routerLink="{{account.id}}">
+                <a routerLink="../bank-account/{{account.id}}">
                     {{account.id}}
                 </a>
             </td>

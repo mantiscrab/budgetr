@@ -10,7 +10,7 @@ import { BankAccountService } from './bank-account/service/bank-account.service'
 import { BankAccountsService } from './bank-account/service/bank-accounts.service';
 
 const routes: Route[] = [
-  { path: 'bank-accounts/:id', component: BankAccountComponent },
+  { path: 'bank-account/:id', component: BankAccountComponent },
   { path: 'bank-accounts', component: BankAccountsComponent }
 ];
 
