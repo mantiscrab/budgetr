@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.BankAccountWithSameNameAlreadyExistsException;
 import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.OperationNotAllowedException;
-import pl.mantiscrab.budgetr.domain.user.DummySignedInUserGetter;
+import pl.mantiscrab.budgetr.domain.user.DummySignedInUserProvider;
 import pl.mantiscrab.budgetr.domain.user.User;
 
 import java.util.List;
@@ -17,13 +17,13 @@ import static pl.mantiscrab.budgetr.domain.user.UserTestDataProvider.sampleUser;
 
 class BankAccountServiceTest {
     private BankAccountService bankAccountService;
-    private DummySignedInUserGetter userGetter;
+    private DummySignedInUserProvider userProvider;
 
     @BeforeEach
     void initializeBankAccountService() {
         User signedInUser = sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
-        userGetter = new DummySignedInUserGetter(signedInUser);
-        this.bankAccountService = BankAccountTestConfig.bankAccountService(userGetter);
+        userProvider = new DummySignedInUserProvider(signedInUser);
+        this.bankAccountService = BankAccountTestConfig.bankAccountService(userProvider);
     }
 
     @Test
@@ -31,14 +31,14 @@ class BankAccountServiceTest {
         //given
         User user1 = sampleUser().username("user1").email("user1@email.com").build();
         User user2 = sampleUser().username("user2").email("user2@email.com").build();
-        userGetter.setSignedInUser(user1);
+        userProvider.setSignedInUser(user1);
         BankAccountDto user1BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User1 Bank Account no.1").build());
         BankAccountDto user1BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User1 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser1 = List.of(
                 user1BankAccountNo1,
                 user1BankAccountNo2
         );
-        userGetter.setSignedInUser(user2);
+        userProvider.setSignedInUser(user2);
         BankAccountDto user2BankAccountNo1 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User2 Bank Account no.1").build());
         BankAccountDto user2BankAccountNo2 = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).name("User2 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser2 = List.of(
@@ -46,13 +46,13 @@ class BankAccountServiceTest {
                 user2BankAccountNo2
         );
         //when
-        userGetter.setSignedInUser(user1);
+        userProvider.setSignedInUser(user1);
         List<BankAccountDto> receivedUser1BankAccounts = bankAccountService.getAccounts();
         //then
         Assertions.assertEquals(bankAccountsCreatedByUser1, receivedUser1BankAccounts);
 
         //when
-        userGetter.setSignedInUser(user2);
+        userProvider.setSignedInUser(user2);
         List<BankAccountDto> receivedUser2BankAccounts = bankAccountService.getAccounts();
         //then
         Assertions.assertEquals(bankAccountsCreatedByUser2, receivedUser2BankAccounts);
@@ -63,11 +63,11 @@ class BankAccountServiceTest {
         //given
         User user1 = sampleUser().username("user1").email("user1@email.com").build();
         User user2 = sampleUser().username("user2").email("user2@email.com").build();
-        userGetter.setSignedInUser(user1);
+        userProvider.setSignedInUser(user1);
         BankAccountDto createdBankAccount = bankAccountService.createBankAccount(
                 sampleBankAccountDto().id(null).build());
         //when
-        userGetter.setSignedInUser(user2);
+        userProvider.setSignedInUser(user2);
         //then
         Optional<BankAccountDto> optionalAccount = bankAccountService.getAccount(createdBankAccount.id());
         Assertions.assertEquals(Optional.empty(), optionalAccount);

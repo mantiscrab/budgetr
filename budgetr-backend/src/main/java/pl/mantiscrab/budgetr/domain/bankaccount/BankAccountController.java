@@ -16,7 +16,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 class BankAccountController {
     private final BankAccountService bankAccountService;
 
-    @GetMapping("/bank-accounts/{id}")
+    @GetMapping("/bank-account/{id}")
     ResponseEntity<BankAccountDto> getAccountById(@PathVariable Long id) {
         return ResponseEntity.of(bankAccountService.getAccount(id));
     }
