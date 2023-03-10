@@ -3,6 +3,7 @@ package pl.mantiscrab.budgetr.domain.bankaccount;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import pl.mantiscrab.budgetr.UriProvider;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
@@ -37,5 +38,11 @@ public class BankAccountHelper {
     public ResponseEntity<BankAccountDto> getAccount(String username, String password, Long id) {
         URI uri = uriProvider.getUriOn(on(BankAccountController.class).getAccountById(id));
         return restTemplate.withBasicAuth(username, password).getForEntity(uri, BankAccountDto.class);
+    }
+
+    public ResponseEntity<BankAccountDto> updateAccount(String username, String password, BankAccountDto bankAccountDto) {
+        URI uri = uriProvider.getUriOn(on(BankAccountController.class).updateBankAccount(bankAccountDto.id(), bankAccountDto));
+        RequestEntity<BankAccountDto> requestEntity = new RequestEntity<>(bankAccountDto, HttpMethod.PUT, uri);
+        return restTemplate.withBasicAuth(username, password).exchange(requestEntity, BankAccountDto.class);
     }
 }

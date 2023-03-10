@@ -107,4 +107,74 @@ class BankAccountServiceTest {
         Assertions.assertThrows(OperationNotAllowedException.class,
                 () -> bankAccountService.createBankAccount(bankAccount));
     }
+
+    @Test
+    void shouldUpdateBankAccount() {
+        //given
+        BankAccountDto newBankAccount = sampleBankAccountDto()
+                .id(null)
+                .name("Bank Inc.").build();
+        BankAccountDto createdBankAccount = bankAccountService.createBankAccount(newBankAccount);
+        //when
+        BankAccountDto bankAccountToBeUpdated = sampleBankAccountDto()
+                .id(createdBankAccount.id())
+                .name("Updated Bank Inc.").build();
+        BankAccountDto updatedBankAccount = bankAccountService.updateBankAccount(bankAccountToBeUpdated.id(), bankAccountToBeUpdated);
+        //then
+        Assertions.assertEquals(bankAccountToBeUpdated, updatedBankAccount);
+        //when
+        BankAccountDto getUpdatedBankAccount = bankAccountService.getAccount(updatedBankAccount.id()).get();
+        //then
+        Assertions.assertEquals(bankAccountToBeUpdated, getUpdatedBankAccount);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdateBankAccountAndUserIsNotOwner() {
+        //given
+        User firstUser = sampleUser().username("firstUser").email("firstUser@email.com").build();
+        User secondUser = sampleUser().username("secondUser").email("secondUser@email.com").build();
+        userProvider.setSignedInUser(firstUser);
+        BankAccountDto firstUserBankAccount = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).build());
+        //when--then
+        userProvider.setSignedInUser(secondUser);
+        Assertions.assertThrows(OperationNotAllowedException.class, () -> bankAccountService.updateBankAccount(firstUserBankAccount.id(), firstUserBankAccount));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdateBankAccountAndAccountWithSameNameAlreadyExists() {
+        //given
+        BankAccountDto firstBankAccount = sampleBankAccountDto()
+                .id(null)
+                .name("Bank 1 Inc.").build();
+        BankAccountDto secondBankAccount = sampleBankAccountDto()
+                .id(null)
+                .name("Bank 2 Inc.").build();
+        bankAccountService.createBankAccount(firstBankAccount);
+        BankAccountDto createdSecondBankAccount = bankAccountService.createBankAccount(secondBankAccount);
+        //when--then
+        BankAccountDto secondBankAccountToBeUpdated = sampleBankAccountDto()
+                .id(createdSecondBankAccount.id())
+                .name("Bank 1 Inc.").build();
+        //then
+        Assertions.assertThrows(BankAccountWithSameNameAlreadyExistsException.class,
+                () -> bankAccountService.updateBankAccount(secondBankAccountToBeUpdated.id(), secondBankAccountToBeUpdated));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdateBankAccountAndAccountWithSpecifiedIdDoesntExist() {
+        //given
+        BankAccountDto bankAccount = sampleBankAccountDto().id(1L).build();
+        //when--then
+        Assertions.assertThrows(OperationNotAllowedException.class,
+                () -> bankAccountService.updateBankAccount(bankAccount.id(), bankAccount));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenUpdateBankAccountAndIdsDontEqual() {
+        //given
+        BankAccountDto bankAccount = sampleBankAccountDto().id(1L).build();
+        //when--then
+        Assertions.assertThrows(OperationNotAllowedException.class,
+                () -> bankAccountService.updateBankAccount(2L, bankAccount));
+    }
 }
