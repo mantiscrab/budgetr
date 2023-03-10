@@ -51,20 +51,24 @@ public class BankAccountService {
         if (newBankAccount.id() != null)
             throw new OperationNotAllowedException();
         User user = userProvider.getUser();
-        throwExceptionIfUserAlreadyHasAccountWithName(user, newBankAccount.name());
+        throwExceptionIfUserAlreadyHasAccountDifferentAccountWithSameName(user, newBankAccount);
     }
 
     private void validateBeforeUpdate(Long id, BankAccountDto bankAccountDto) {
         User user = userProvider.getUser();
         throwExceptionIfIdsDontMatch(id, bankAccountDto);
         throwExceptionIfUserDoesntOwnAccount(user, bankAccountDto);
-        throwExceptionIfUserAlreadyHasAccountWithName(user, bankAccountDto.name());
+        throwExceptionIfUserAlreadyHasAccountDifferentAccountWithSameName(user, bankAccountDto);
     }
 
-    private void throwExceptionIfUserAlreadyHasAccountWithName(User user, String name) {
-        Set<BankAccount> bankAccountsByUserAndName = accountRepository.findByUserAndName(user, name);
-        if (!bankAccountsByUserAndName.isEmpty()) {
-            throw BankAccountWithSameNameAlreadyExistsException.withName(name);
+    private void throwExceptionIfUserAlreadyHasAccountDifferentAccountWithSameName(User user, BankAccountDto bankAccountDto) {
+        Set<BankAccount> bankAccountsByUserAndName = accountRepository.findByUserAndName(user, bankAccountDto.name());
+        if (bankAccountsByUserAndName.isEmpty()) {
+            return;
+        }
+        for (BankAccount bankAccount : bankAccountsByUserAndName) {
+            if (!Objects.equals(bankAccount.getId(), bankAccountDto.id()))
+                throw BankAccountWithSameNameAlreadyExistsException.withName(bankAccountDto.name());
         }
     }
 
