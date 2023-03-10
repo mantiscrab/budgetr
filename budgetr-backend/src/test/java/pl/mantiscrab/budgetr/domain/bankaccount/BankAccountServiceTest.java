@@ -9,6 +9,7 @@ import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.OperationNotAllowedEx
 import pl.mantiscrab.budgetr.domain.user.DummySignedInUserProvider;
 import pl.mantiscrab.budgetr.domain.user.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,12 +114,14 @@ class BankAccountServiceTest {
         //given
         BankAccountDto newBankAccount = sampleBankAccountDto()
                 .id(null)
-                .name("Bank Inc.").build();
+                .name("Bank Inc.")
+                .initialBalance(BigDecimal.ZERO).build();
         BankAccountDto createdBankAccount = bankAccountService.createBankAccount(newBankAccount);
         //when
         BankAccountDto bankAccountToBeUpdated = sampleBankAccountDto()
                 .id(createdBankAccount.id())
-                .name("Updated Bank Inc.").build();
+                .name("Bank Inc.")
+                .initialBalance(BigDecimal.ONE).build();
         BankAccountDto updatedBankAccount = bankAccountService.updateBankAccount(bankAccountToBeUpdated.id(), bankAccountToBeUpdated);
         //then
         Assertions.assertEquals(bankAccountToBeUpdated, updatedBankAccount);
