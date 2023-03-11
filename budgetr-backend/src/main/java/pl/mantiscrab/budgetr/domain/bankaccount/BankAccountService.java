@@ -47,6 +47,9 @@ public class BankAccountService {
         return BankAccountMapper.mapBankAccountToBankAccountDto(savedBankAccount);
     }
 
+    public void deleteBankAccount(Long id) {
+    }
+
     private void validateBeforeCreate(BankAccountDto newBankAccount) {
         if (newBankAccount.id() != null)
             throw new OperationNotAllowedException();
