@@ -20,4 +20,5 @@ interface BankAccountRepository extends CrudRepository<BankAccount, Long> {
             "AND ba.id=:id")
     Optional<BankAccount> findByUserAndId(User user, Long id);
     Set<BankAccount> findByUserAndName(User user, String name);
+    void deleteByUserAndId(User user, Long id);
 }

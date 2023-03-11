@@ -47,7 +47,10 @@ public class BankAccountService {
         return BankAccountMapper.mapBankAccountToBankAccountDto(savedBankAccount);
     }
 
+    @Transactional
     public void deleteBankAccount(Long id) {
+        User user = userProvider.getUser();
+        accountRepository.deleteByUserAndId(user, id);
     }
 
     private void validateBeforeCreate(BankAccountDto newBankAccount) {

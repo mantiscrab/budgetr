@@ -42,6 +42,15 @@ class InMemoryBankAccountRepository extends InMemoryDummyCrudRepository<BankAcco
     }
 
     @Override
+    public void deleteByUserAndId(User user, Long id) {
+        BankAccount bankAccount = map.get(id);
+        if (bankAccount != null) {
+            if (bankAccount.getUser().equals(user))
+                map.remove(id);
+        }
+    }
+
+    @Override
     public Set<BankAccount> findByUserAndName(User user, String name) {
         return map.values().parallelStream()
                 .filter(bankAccount -> bankAccount.getUser().equals(user)
