@@ -180,4 +180,45 @@ class BankAccountServiceTest {
         Assertions.assertThrows(OperationNotAllowedException.class,
                 () -> bankAccountService.updateBankAccount(2L, bankAccount));
     }
+
+    @Test
+    void shouldDeleteBankAccount() {
+        //given
+        BankAccountDto newBankAccount = sampleBankAccountDto().id(null).build();
+        BankAccountDto createdBankAccount = bankAccountService.createBankAccount(newBankAccount);
+
+        //when
+        bankAccountService.deleteBankAccount(createdBankAccount.id());
+
+        //then
+        Optional<BankAccountDto> optionalBankAccountDto = bankAccountService.getAccount(createdBankAccount.id());
+        Assertions.assertEquals(Optional.empty(), optionalBankAccountDto);
+    }
+
+    @Test
+    void shouldNotDeleteBankAccountWhenUserIsNotOwner() {
+        //given
+        User firstUser = sampleUser().username("firstUser").email("firstUser@email.com").build();
+        User secondUser = sampleUser().username("secondUser").email("secondUser@email.com").build();
+        userProvider.setSignedInUser(firstUser);
+        BankAccountDto firstUserBankAccount = bankAccountService.createBankAccount(sampleBankAccountDto().id(null).build());
+
+        //when -- then
+        userProvider.setSignedInUser(secondUser);
+        Assertions.assertDoesNotThrow(() -> bankAccountService.deleteBankAccount(firstUserBankAccount.id()));
+
+        //when
+        userProvider.setSignedInUser(firstUser);
+        Optional<BankAccountDto> optionalBankAccountDto = bankAccountService.getAccount(firstUserBankAccount.id());
+
+        //then
+        Assertions.assertTrue(optionalBankAccountDto.isPresent());
+        Assertions.assertEquals(firstUserBankAccount, optionalBankAccountDto.get());
+    }
+
+    @Test
+    void shouldNotThrowExceptionWhenDeleteAccountAndAccountDoesntExist() {
+        //given--when--then
+        Assertions.assertDoesNotThrow(() -> bankAccountService.deleteBankAccount(1L));
+    }
 }

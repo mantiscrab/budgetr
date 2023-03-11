@@ -45,4 +45,10 @@ public class BankAccountHelper {
         RequestEntity<BankAccountDto> requestEntity = new RequestEntity<>(bankAccountDto, HttpMethod.PUT, uri);
         return restTemplate.withBasicAuth(username, password).exchange(requestEntity, BankAccountDto.class);
     }
+
+    ResponseEntity<Void> deleteAccount(String username, String password, Long id) {
+        URI uri = uriProvider.getUriOn(on(BankAccountController.class).deleteBankAccount(id));
+        RequestEntity<Void> requestEntity = new RequestEntity<>(HttpMethod.DELETE, uri);
+        return restTemplate.withBasicAuth(username, password).exchange(requestEntity, Void.class);
+    }
 }
