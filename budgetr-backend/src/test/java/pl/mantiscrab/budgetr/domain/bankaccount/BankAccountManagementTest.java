@@ -71,10 +71,35 @@ class BankAccountManagementTest {
         ResponseEntity<List<BankAccountDto>> accountsResponse = bankAccountHelper.getAccounts(username, password);
         //then response contains two accounts
         Assertions.assertEquals(2, accountsResponse.getBody().size());
+
+        //when user updates account
+        BankAccountDto updateSecondBankAccountRequestBody = sampleBankAccountDto()
+                .id(secondResponse.getBody().id())
+                .name("Updated Bank 2")
+                .build();
+        ResponseEntity<BankAccountDto> updateSecondBankAccountResponse = bankAccountHelper
+                .updateAccount(username, password, updateSecondBankAccountRequestBody);
+
+        //then response matches request
+        assertBankAccountResponseMatchesRequest(updateSecondBankAccountResponse, updateSecondBankAccountRequestBody);
+
+        //when user request for updated account
+        ResponseEntity<BankAccountDto> getUpdatedSecondBankAccountResponse = bankAccountHelper
+                .getAccount(username, password, updateSecondBankAccountRequestBody.id());
+
+        //then response matches request
+        assertBankAccountResponseMatchesRequest(getUpdatedSecondBankAccountResponse, updateSecondBankAccountRequestBody);
     }
 
     private void assertBankAccountResponseMatchesRequestIgnoreId(ResponseEntity<BankAccountDto> response, BankAccountDto requestBody) {
         BankAccountDto responseBody = response.getBody();
+        Assertions.assertEquals(responseBody.name(), requestBody.name());
+        Assertions.assertEquals(responseBody.initialBalance(), requestBody.initialBalance());
+    }
+
+    private void assertBankAccountResponseMatchesRequest(ResponseEntity<BankAccountDto> response, BankAccountDto requestBody) {
+        BankAccountDto responseBody = response.getBody();
+        Assertions.assertEquals(responseBody.id(), requestBody.id());
         Assertions.assertEquals(responseBody.name(), requestBody.name());
         Assertions.assertEquals(responseBody.initialBalance(), requestBody.initialBalance());
     }
