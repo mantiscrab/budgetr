@@ -33,6 +33,17 @@ class BankAccountController {
         return ResponseEntity.created(uri).body(createdBankAccount);
     }
 
+    @PutMapping("/bank-account/{id}")
+    ResponseEntity<BankAccountDto> updateBankAccount(@PathVariable Long id, @RequestBody BankAccountDto bankAccountDto) {
+        return ResponseEntity.ok(bankAccountService.updateBankAccount(id, bankAccountDto));
+    }
+
+    @DeleteMapping("/bank-account/{id}")
+    ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
+        bankAccountService.deleteBankAccount(id);
+        return ResponseEntity.noContent().build();
+    }
+
     private URI getLocationUri(BankAccountDto createdBankAccount) {
         Long id = createdBankAccount.id();
         return MvcUriComponentsBuilder.fromMethodCall(
