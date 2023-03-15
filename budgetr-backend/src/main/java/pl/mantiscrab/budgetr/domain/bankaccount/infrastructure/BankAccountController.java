@@ -1,9 +1,10 @@
-package pl.mantiscrab.budgetr.domain.bankaccount;
+package pl.mantiscrab.budgetr.domain.bankaccount.infrastructure;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import pl.mantiscrab.budgetr.domain.bankaccount.BankAccountService;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 
 import java.net.URI;
@@ -13,33 +14,33 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 
 @AllArgsConstructor
 @RestController
-class BankAccountController {
+public class BankAccountController {
     private final BankAccountService bankAccountService;
 
     @GetMapping("/bank-account/{id}")
-    ResponseEntity<BankAccountDto> getAccountById(@PathVariable Long id) {
+    public ResponseEntity<BankAccountDto> getAccountById(@PathVariable Long id) {
         return ResponseEntity.of(bankAccountService.getAccount(id));
     }
 
     @GetMapping("/bank-accounts")
-    ResponseEntity<List<BankAccountDto>> getAccounts() {
+    public ResponseEntity<List<BankAccountDto>> getAccounts() {
         return ResponseEntity.ok(bankAccountService.getAccounts());
     }
 
     @PostMapping("/bank-accounts")
-    ResponseEntity<BankAccountDto> createBankAccount(@RequestBody BankAccountDto bankAccountDto) {
+    public ResponseEntity<BankAccountDto> createBankAccount(@RequestBody BankAccountDto bankAccountDto) {
         BankAccountDto createdBankAccount = bankAccountService.createBankAccount(bankAccountDto);
         URI uri = getLocationUri(createdBankAccount);
         return ResponseEntity.created(uri).body(createdBankAccount);
     }
 
     @PutMapping("/bank-account/{id}")
-    ResponseEntity<BankAccountDto> updateBankAccount(@PathVariable Long id, @RequestBody BankAccountDto bankAccountDto) {
+    public ResponseEntity<BankAccountDto> updateBankAccount(@PathVariable Long id, @RequestBody BankAccountDto bankAccountDto) {
         return ResponseEntity.ok(bankAccountService.updateBankAccount(id, bankAccountDto));
     }
 
     @DeleteMapping("/bank-account/{id}")
-    ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
         bankAccountService.deleteBankAccount(id);
         return ResponseEntity.noContent().build();
     }

@@ -7,6 +7,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import pl.mantiscrab.budgetr.UriProvider;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
+import pl.mantiscrab.budgetr.domain.bankaccount.infrastructure.BankAccountController;
 
 import java.net.URI;
 import java.util.List;
