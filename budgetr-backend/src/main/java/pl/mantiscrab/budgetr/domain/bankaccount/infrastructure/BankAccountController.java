@@ -16,10 +16,13 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 @RestController
 public class BankAccountController {
     private final BankAccountService bankAccountService;
+    private final BankAccountWithLinksAssembler assembler;
 
     @GetMapping("/bank-account/{id}")
-    public ResponseEntity<BankAccountDto> getAccountById(@PathVariable Long id) {
-        return ResponseEntity.of(bankAccountService.getAccount(id));
+    public ResponseEntity<BankAccountWithLinks> getAccountById(@PathVariable Long id) {
+        return ResponseEntity.of(bankAccountService
+                .getAccount(id)
+                .map(assembler::toModel));
     }
 
     @GetMapping("/bank-accounts")
