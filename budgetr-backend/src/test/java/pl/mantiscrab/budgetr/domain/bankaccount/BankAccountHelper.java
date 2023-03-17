@@ -18,7 +18,7 @@ import static org.springframework.web.servlet.mvc.method.annotation.MvcUriCompon
 public class BankAccountHelper {
     private final TestRestTemplate restTemplate;
     private final UriProvider uriProvider;
-    private final ParameterizedTypeReference<CollectionModel<BankAccountWithLinks>> bankAccountWithLinksCollectionModel
+    private final ParameterizedTypeReference<CollectionModel<BankAccountWithLinks>> bankAccountWithLinksCollectionModelTypeReference
             = new ParameterizedTypeReference<>() {
     };
 
@@ -35,7 +35,7 @@ public class BankAccountHelper {
     public ResponseEntity<CollectionModel<BankAccountWithLinks>> getAccounts(String username, String password) {
         URI uri = uriProvider.getUriOn(on(BankAccountController.class).getAccounts());
         return restTemplate.withBasicAuth(username, password)
-                .exchange(uri, HttpMethod.GET, null, bankAccountWithLinksCollectionModel);
+                .exchange(uri, HttpMethod.GET, null, bankAccountWithLinksCollectionModelTypeReference);
     }
 
     public ResponseEntity<BankAccountWithLinks> getAccount(String username, String password, Long id) {

@@ -12,7 +12,7 @@ import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import java.math.BigDecimal;
 import java.net.URI;
 
-import static pl.mantiscrab.budgetr.domain.bankaccount.infrastructure.BankAccountLinksProvider.bankAccountByIdLink;
+import static pl.mantiscrab.budgetr.domain.bankaccount.infrastructure.BankAccountLinksProvider.bankAccountSelfLink;
 import static pl.mantiscrab.budgetr.domain.bankaccount.infrastructure.BankAccountLinksProvider.bankAccountsLink;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,7 +32,7 @@ public class BankAccountWithLinks extends RepresentationModel<BankAccountWithLin
     static BankAccountWithLinks of(BankAccountDto bankAccountDto) {
         final BankAccountWithLinks bankAccountWithLinks = new BankAccountWithLinks(bankAccountDto);
         bankAccountWithLinks.add(
-                bankAccountByIdLink(bankAccountDto.id()),
+                bankAccountSelfLink(bankAccountDto.id()),
                 bankAccountsLink());
         return bankAccountWithLinks;
     }

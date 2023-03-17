@@ -11,7 +11,7 @@ class BankAccountLinksProvider {
         return linkTo(methodOn(BankAccountController.class).getAccounts()).withRel("bankAccounts");
     }
 
-    static Link bankAccountByIdLink(Long id) {
+    static Link bankAccountSelfLink(Long id) {
         return linkTo(methodOn(BankAccountController.class).getAccountById(id)).withSelfRel();
     }
 }
