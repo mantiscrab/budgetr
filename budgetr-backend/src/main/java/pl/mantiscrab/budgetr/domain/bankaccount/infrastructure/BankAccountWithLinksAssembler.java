@@ -19,6 +19,6 @@ class BankAccountWithLinksAssembler implements RepresentationModelAssembler<Bank
 
     public CollectionModel<BankAccountWithLinks> toModel(List<BankAccountDto> bankAccountDtos) {
         final List<BankAccountWithLinks> bankAccountsWithLinks = bankAccountDtos.stream().map(this::toModel).toList();
-        return BankAccountsWithLinks.of(bankAccountsWithLinks, bankAccountsLink());
+        return CollectionModel.of(bankAccountsWithLinks, bankAccountsLink());
     }
 }

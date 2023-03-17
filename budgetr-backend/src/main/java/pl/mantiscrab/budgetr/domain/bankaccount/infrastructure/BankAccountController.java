@@ -26,8 +26,8 @@ public class BankAccountController {
     @GetMapping("/bank-accounts")
     public ResponseEntity<CollectionModel<BankAccountWithLinks>> getAccounts() {
         final List<BankAccountDto> accounts = bankAccountService.getAccounts();
-        final CollectionModel<BankAccountWithLinks> bankAccountWithLinks = assembler.toModel(accounts);
-        return ResponseEntity.ok(bankAccountWithLinks);
+        final CollectionModel<BankAccountWithLinks> bankAccountsWithLinks =  assembler.toModel(accounts);
+        return ResponseEntity.ok(bankAccountsWithLinks);
     }
 
     @PostMapping("/bank-accounts")
