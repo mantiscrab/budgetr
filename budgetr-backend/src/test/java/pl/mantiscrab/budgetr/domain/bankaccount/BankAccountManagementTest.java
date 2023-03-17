@@ -5,14 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 //import pl.mantiscrab.budgetr.auth.RegistrationHelper;
 //import pl.mantiscrab.budgetr.auth.dto.UserRegisterDto;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
-
-import java.util.List;
+import pl.mantiscrab.budgetr.domain.bankaccount.infrastructure.BankAccountWithLinks;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 //import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegisterDto;
@@ -48,42 +48,42 @@ class BankAccountManagementTest {
 //        registrationHelper.registerUser(registerDto);
         //and user creates account
         BankAccountDto createFirstAccountRequestBody = sampleBankAccountDto().id(null).name("Bank 1").build();
-        ResponseEntity<BankAccountDto> createFirstAccountResponse = bankAccountHelper
+        ResponseEntity<BankAccountWithLinks> createFirstAccountResponse = bankAccountHelper
                 .createAccount(username, password, createFirstAccountRequestBody);
         //then response matches request
         assertBankAccountResponseMatchesRequestIgnoreId(createFirstAccountResponse, createFirstAccountRequestBody);
 
         //when user request for created account
-        ResponseEntity<BankAccountDto> getFirstAccountResponse = bankAccountHelper
+        ResponseEntity<BankAccountWithLinks> getFirstAccountResponse = bankAccountHelper
                 .getAccount(username, password, createFirstAccountResponse.getBody().id());
         //then response matches request
         assertBankAccountResponseMatchesRequestIgnoreId(getFirstAccountResponse, createFirstAccountRequestBody);
 
         //when user creates second account
         BankAccountDto createSecondAccountRequestBody = sampleBankAccountDto().id(null).name("Bank 2").build();
-        ResponseEntity<BankAccountDto> createSecondAccountResponse = bankAccountHelper
+        ResponseEntity<BankAccountWithLinks> createSecondAccountResponse = bankAccountHelper
                 .createAccount(username, password, createSecondAccountRequestBody);
         //then response matches request
         assertBankAccountResponseMatchesRequestIgnoreId(createSecondAccountResponse, createSecondAccountRequestBody);
 
         //when user request for accounts
-        ResponseEntity<List<BankAccountDto>> getAccountsResponse = bankAccountHelper.getAccounts(username, password);
+        ResponseEntity<CollectionModel<BankAccountWithLinks>> getAccountsResponse = bankAccountHelper.getAccounts(username, password);
         //then response contains two accounts
-        Assertions.assertEquals(2, getAccountsResponse.getBody().size());
+        Assertions.assertEquals(2, getAccountsResponse.getBody().getContent().size());
 
         //when user updates account
         BankAccountDto updateSecondAccountRequestBody = sampleBankAccountDto()
                 .id(createSecondAccountResponse.getBody().id())
                 .name("Updated Bank 2")
                 .build();
-        ResponseEntity<BankAccountDto> updateSecondAccountResponse = bankAccountHelper
+        ResponseEntity<BankAccountWithLinks> updateSecondAccountResponse = bankAccountHelper
                 .updateAccount(username, password, updateSecondAccountRequestBody);
 
         //then response matches request
         assertBankAccountResponseMatchesRequest(updateSecondAccountResponse, updateSecondAccountRequestBody);
 
         //when user request for updated account
-        ResponseEntity<BankAccountDto> getUpdatedSecondBankAccountResponse = bankAccountHelper
+        ResponseEntity<BankAccountWithLinks> getUpdatedSecondBankAccountResponse = bankAccountHelper
                 .getAccount(username, password, updateSecondAccountRequestBody.id());
 
         //then response matches request
@@ -96,14 +96,14 @@ class BankAccountManagementTest {
         Assertions.assertEquals(HttpStatus.NO_CONTENT, deleteSecondAccountResponse.getStatusCode());
     }
 
-    private void assertBankAccountResponseMatchesRequestIgnoreId(ResponseEntity<BankAccountDto> response, BankAccountDto requestBody) {
-        BankAccountDto responseBody = response.getBody();
+    private void assertBankAccountResponseMatchesRequestIgnoreId(ResponseEntity<BankAccountWithLinks> response, BankAccountDto requestBody) {
+        BankAccountWithLinks responseBody = response.getBody();
         Assertions.assertEquals(responseBody.name(), requestBody.name());
         Assertions.assertEquals(responseBody.initialBalance(), requestBody.initialBalance());
     }
 
-    private void assertBankAccountResponseMatchesRequest(ResponseEntity<BankAccountDto> response, BankAccountDto requestBody) {
-        BankAccountDto responseBody = response.getBody();
+    private void assertBankAccountResponseMatchesRequest(ResponseEntity<BankAccountWithLinks> response, BankAccountDto requestBody) {
+        BankAccountWithLinks responseBody = response.getBody();
         Assertions.assertEquals(responseBody.id(), requestBody.id());
         Assertions.assertEquals(responseBody.name(), requestBody.name());
         Assertions.assertEquals(responseBody.initialBalance(), requestBody.initialBalance());
