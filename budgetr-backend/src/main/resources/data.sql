@@ -9,3 +9,6 @@ values ('mantiscrab', 'mantiscrab@budgetr.pl');
 
 insert into BANK_ACCOUNT (INITIAL_BALANCE, NAME, USERNAME)
 VALUES (0.00, 'Millennium', 'mantiscrab');
+
+insert into BANK_ACCOUNT (INITIAL_BALANCE, NAME, USERNAME)
+VALUES (100.00, 'PKOBP', 'mantiscrab');
