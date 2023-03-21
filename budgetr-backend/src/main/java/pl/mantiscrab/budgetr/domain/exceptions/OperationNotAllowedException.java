@@ -1,4 +1,4 @@
-package pl.mantiscrab.budgetr.domain.bankaccount.exceptions;
+package pl.mantiscrab.budgetr.domain.exceptions;
 
 import org.springframework.http.HttpStatus;
 import pl.mantiscrab.budgetr.BudgetrException;

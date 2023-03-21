@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.BankAccountWithSameNameAlreadyExistsException;
-import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.OperationNotAllowedException;
+import pl.mantiscrab.budgetr.domain.exceptions.OperationNotAllowedException;
 import pl.mantiscrab.budgetr.domain.user.DummySignedInUserProvider;
 import pl.mantiscrab.budgetr.domain.user.User;
 

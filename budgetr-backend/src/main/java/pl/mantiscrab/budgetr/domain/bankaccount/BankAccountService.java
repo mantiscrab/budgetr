@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.BankAccountWithSameNameAlreadyExistsException;
-import pl.mantiscrab.budgetr.domain.bankaccount.exceptions.OperationNotAllowedException;
+import pl.mantiscrab.budgetr.domain.exceptions.OperationNotAllowedException;
 import pl.mantiscrab.budgetr.domain.user.SignedInUserProvider;
 import pl.mantiscrab.budgetr.domain.user.User;
 
