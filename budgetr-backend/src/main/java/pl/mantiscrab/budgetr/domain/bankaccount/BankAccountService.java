@@ -53,6 +53,10 @@ public class BankAccountService {
         accountRepository.deleteByUserAndId(user, id);
     }
 
+    public Optional<BankAccount> getSignedInUsersBankAccount(Long bankAccountId) {
+        return accountRepository.findByUserAndId(userProvider.getUser(), bankAccountId);
+    }
+
     private void validateBeforeCreate(BankAccountDto newBankAccount) {
         if (newBankAccount.id() != null)
             throw new OperationNotAllowedException();

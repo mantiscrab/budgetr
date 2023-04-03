@@ -24,7 +24,7 @@ class BankAccountServiceTest {
     void initializeBankAccountService() {
         User signedInUser = sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
         userProvider = new DummySignedInUserProvider(signedInUser);
-        this.bankAccountService = BankAccountTestConfig.bankAccountService(userProvider);
+        this.bankAccountService = new BankAccountTestConfig().bankAccountService(userProvider);
     }
 
     @Test

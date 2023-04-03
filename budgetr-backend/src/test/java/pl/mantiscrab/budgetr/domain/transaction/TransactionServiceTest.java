@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.mantiscrab.budgetr.domain.bankaccount.BankAccountService;
-import pl.mantiscrab.budgetr.domain.bankaccount.BankAccountTestConfig;
 import pl.mantiscrab.budgetr.domain.bankaccount.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.exceptions.OperationNotAllowedException;
 import pl.mantiscrab.budgetr.domain.transaction.dto.TransactionDto;
@@ -26,13 +25,15 @@ class TransactionServiceTest {
     private BankAccountService bankAccountService;
     private DummySignedInUserProvider userProvider;
     private TransactionService transactionService;
+    private TransactionTestConfig transactionTestConfig = new TransactionTestConfig();
 
     @BeforeEach
     void initTransactionService() {
         User signedInUser = sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
         this.userProvider = new DummySignedInUserProvider(signedInUser);
-        this.transactionService = TransactionTestConfig.transactionService(userProvider);
-        this.bankAccountService = BankAccountTestConfig.bankAccountService(userProvider);
+        this.transactionTestConfig = new TransactionTestConfig();
+        this.bankAccountService = transactionTestConfig.bankAccountService(this.userProvider);
+        this.transactionService = transactionTestConfig.transactionService(this.bankAccountService);
     }
 
     @Test
@@ -85,8 +86,8 @@ class TransactionServiceTest {
                 sampleNewTransaction().date(LocalDate.of(2222, 2, 2)).build());
 
         //when
-        final TransactionDto ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(ba1.id(), ba1t1.index());
-        final TransactionDto ba2t1Get = transactionService.getTransactionByBankAccountIdAndIndex(ba2.id(), ba2t1.index());
+        final TransactionDto ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(ba1.id(), ba1t1.index()).orElseThrow();
+        final TransactionDto ba2t1Get = transactionService.getTransactionByBankAccountIdAndIndex(ba2.id(), ba2t1.index()).orElseThrow();
 
         //then
         Assertions.assertEquals(ba1t1Get.index(), ba2t1Get.index());
@@ -112,9 +113,9 @@ class TransactionServiceTest {
 
         //when
         userProvider.setSignedInUser(u1);
-        final TransactionDto u1ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(u1ba1.id(), u1ba1t1.index());
+        final TransactionDto u1ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(u1ba1.id(), u1ba1t1.index()).orElseThrow();
         userProvider.setSignedInUser(u2);
-        final TransactionDto u2ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(u2ba1.id(), u2ba1t1.index());
+        final TransactionDto u2ba1t1Get = transactionService.getTransactionByBankAccountIdAndIndex(u2ba1.id(), u2ba1t1.index()).orElseThrow();
 
         //then
         Assertions.assertEquals(u1ba1t1.index(), u2ba1t1.index());

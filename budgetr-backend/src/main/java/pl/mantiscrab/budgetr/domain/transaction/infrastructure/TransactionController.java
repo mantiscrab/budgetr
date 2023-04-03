@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import pl.mantiscrab.budgetr.domain.transaction.TransactionService;
 import pl.mantiscrab.budgetr.domain.transaction.dto.TransactionDto;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @RestController
 class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/bank-account/{bankAccountId}")
-    ResponseEntity<TransactionWithLinks> createTransaction(@PathVariable Long bankAccountId, @RequestParam TransactionDto transactionDto) {
+    ResponseEntity<TransactionWithLinks> createTransaction(@PathVariable Long bankAccountId, @RequestBody TransactionDto transactionDto) {
         final TransactionDto transaction = transactionService.createTransaction(bankAccountId, transactionDto);
-        throw new NotImplementedException();
+        return null;
     }
 
     ResponseEntity<PagedModel<TransactionWithLinks>> getTransactionsByBankAccountId
@@ -31,7 +33,7 @@ class TransactionController {
 
     @GetMapping("/bank-account/{bankAccountId}/transaction/{index}")
     ResponseEntity<TransactionWithLinks> getTransactionByBankAccountIdAndIndex(@PathVariable Long bankAccountId, @PathVariable Integer index) {
-        final TransactionDto transaction = transactionService.getTransactionByBankAccountIdAndIndex(bankAccountId, index);
+        final Optional<TransactionDto> transaction = transactionService.getTransactionByBankAccountIdAndIndex(bankAccountId, index);
         throw new NotImplementedException();
     }
 
