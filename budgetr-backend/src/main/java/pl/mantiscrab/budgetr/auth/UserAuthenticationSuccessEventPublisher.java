@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Service;
-import pl.mantiscrab.budgetr.domain.user.infrastructure.RecentlyAuthenticatedUsersPublisher;
+import pl.mantiscrab.budgetr.domain.infrastructure.RecentlyAuthenticatedUsersPublisher;
 
 import java.util.Optional;
 

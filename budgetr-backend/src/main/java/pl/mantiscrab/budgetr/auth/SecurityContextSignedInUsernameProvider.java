@@ -2,8 +2,8 @@ package pl.mantiscrab.budgetr.auth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import pl.mantiscrab.budgetr.domain.user.exceptions.BudgetrUserNotAuthenticatedException;
-import pl.mantiscrab.budgetr.domain.user.infrastructure.SignedInUsernameProvider;
+import pl.mantiscrab.budgetr.domain.exceptions.BudgetrUserNotAuthenticatedException;
+import pl.mantiscrab.budgetr.domain.infrastructure.SignedInUsernameProvider;
 
 class SecurityContextSignedInUsernameProvider implements SignedInUsernameProvider {
     @Override
