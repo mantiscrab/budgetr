@@ -26,4 +26,8 @@ class User {
     @Email
     @NotBlank
     private String email;
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
 }
