@@ -3,59 +3,46 @@ package pl.mantiscrab.budgetr.domain;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
-import pl.mantiscrab.budgetr.domain.infrastructure.RecentlyAuthenticatedUsersSubscriber;
 import pl.mantiscrab.budgetr.domain.exceptions.BankAccountWithSameNameAlreadyExistsException;
 import pl.mantiscrab.budgetr.domain.exceptions.OperationNotAllowedException;
-import pl.mantiscrab.budgetr.domain.infrastructure.RecentlyAuthenticatedUser;
 import pl.mantiscrab.budgetr.domain.infrastructure.RecentlyAuthenticatedUsersPublisher;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static pl.mantiscrab.budgetr.domain.RecentlyAuthenticatedUserTestDataProvider.sampleUser;
+
 class BankAccountFacadeTest {
     private BankAccountFacade bankAccountFacade;
     private DummySignedInUsernameProvider userProvider;
-    private UserService userService;
-    @Mock
-    private RecentlyAuthenticatedUsersPublisher publisher = new RecentlyAuthenticatedUsersPublisher() {
-        @Override
-        public void subscribe(RecentlyAuthenticatedUsersSubscriber subscriber) {
-            super.subscribe(subscriber);
-        }
-
-        @Override
-        public void notify(RecentlyAuthenticatedUser user) {
-            super.notify(user);
-        }
-    };
+    private RecentlyAuthenticatedUsersPublisher publisherMock;
 
     @BeforeEach
     void initializeBankAccountFacade() {
         User signedInUser = UserTestDataProvider.sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
         userProvider = new DummySignedInUsernameProvider("mantiscrab");
         UserRepository userRepository = new InMemoryUserRepository();
+        publisherMock = new RecentlyAuthenticatedUsersPublisherMock();
         userRepository.save(signedInUser);
-        UserConfig userConfig = new UserConfig(userRepository, userProvider);
+        UserConfig userConfig = new UserConfig(userRepository, userProvider, publisherMock);
         this.bankAccountFacade = userConfig.bankAccountFacade();
-        this.userService = userConfig.userService(publisher, userRepository);
     }
 
     @Test
     void shouldGetAccountsAssociatedOnlyWithSignedInUser() {
         //given
-        User user1 = UserTestDataProvider.sampleUser().username("user1").email("user1@email.com").build();
-        User user2 = UserTestDataProvider.sampleUser().username("user2").email("user2@email.com").build();
-        userProvider.setSignedInUserName(user1.getUsername());
+        publisherMock.notify(sampleUser().username("user1").email("user1@email.com").build());
+        publisherMock.notify(sampleUser().username("user2").email("user2@email.com").build());
+        userProvider.setSignedInUserName("user1");
         BankAccountDto user1BankAccountNo1 = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("User1 Bank Account no.1").build());
         BankAccountDto user1BankAccountNo2 = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("User1 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser1 = List.of(
                 user1BankAccountNo1,
                 user1BankAccountNo2
         );
-        userProvider.setSignedInUserName(user2.getUsername());
+        userProvider.setSignedInUserName("user2");
         BankAccountDto user2BankAccountNo1 = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("User2 Bank Account no.1").build());
         BankAccountDto user2BankAccountNo2 = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("User2 Bank Account no.2").build());
         List<BankAccountDto> bankAccountsCreatedByUser2 = List.of(
@@ -63,13 +50,13 @@ class BankAccountFacadeTest {
                 user2BankAccountNo2
         );
         //when
-        userProvider.setSignedInUserName(user1.getUsername());
+        userProvider.setSignedInUserName("user1");
         List<BankAccountDto> receivedUser1BankAccounts = bankAccountFacade.getAccounts();
         //then
         Assertions.assertEquals(bankAccountsCreatedByUser1, receivedUser1BankAccounts);
 
         //when
-        userProvider.setSignedInUserName(user2.getUsername());
+        userProvider.setSignedInUserName("user2");
         List<BankAccountDto> receivedUser2BankAccounts = bankAccountFacade.getAccounts();
         //then
         Assertions.assertEquals(bankAccountsCreatedByUser2, receivedUser2BankAccounts);
@@ -78,13 +65,13 @@ class BankAccountFacadeTest {
     @Test
     void shouldReturnEmptyOptionalWhenGetAccountAndUserIsNotOwner() {
         //given
-        User user1 = UserTestDataProvider.sampleUser().username("user1").email("user1@email.com").build();
-        User user2 = UserTestDataProvider.sampleUser().username("user2").email("user2@email.com").build();
-        userProvider.setSignedInUserName(user1.getUsername());
+        publisherMock.notify(sampleUser().username("user1").email("user1@email.com").build());
+        publisherMock.notify(sampleUser().username("user2").email("user2@email.com").build());
+        userProvider.setSignedInUserName("user1");
         BankAccountDto createdBankAccount = bankAccountFacade.addBankAccount(
                 BankAccountTestDataProvider.sampleBankAccountDto().index(null).build());
         //when
-        userProvider.setSignedInUserName(user2.getUsername());
+        userProvider.setSignedInUserName("user2");
         //then
         Optional<BankAccountDto> optionalAccount = bankAccountFacade.getAccount(createdBankAccount.index());
         Assertions.assertEquals(Optional.empty(), optionalAccount);
@@ -151,12 +138,12 @@ class BankAccountFacadeTest {
     void shouldThrowExceptionWhenUpdateBankAccountAndUserIsNotOwner() {
         //given
 
-        User firstUser = UserTestDataProvider.sampleUser().username("firstUser").email("firstUser@email.com").build();
-        User secondUser = UserTestDataProvider.sampleUser().username("secondUser").email("secondUser@email.com").build();
-        userProvider.setSignedInUserName(firstUser.getUsername());
+        publisherMock.notify(sampleUser().username("firstUser").email("firstUser@email.com").build());
+        publisherMock.notify(sampleUser().username("secondUser").email("secondUser@email.com").build());
+        userProvider.setSignedInUserName("firstUser");
         BankAccountDto firstUserBankAccount = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).build());
         //when--then
-        userProvider.setSignedInUserName(secondUser.getUsername());
+        userProvider.setSignedInUserName("secondUser");
         Assertions.assertThrows(OperationNotAllowedException.class, () -> bankAccountFacade.updateBankAccount(firstUserBankAccount.index(), firstUserBankAccount));
     }
 
@@ -215,17 +202,18 @@ class BankAccountFacadeTest {
     @Test
     void shouldNotDeleteBankAccountWhenUserIsNotOwner() {
         //given
-        User firstUser = UserTestDataProvider.sampleUser().username("firstUser").email("firstUser@email.com").build();
-        User secondUser = UserTestDataProvider.sampleUser().username("secondUser").email("secondUser@email.com").build();
-        userProvider.setSignedInUserName(firstUser.getUsername());
+        publisherMock.notify(sampleUser().username("firstUser").email("firstUser@email.com").build());
+        publisherMock.notify(sampleUser().username("secondUser").email("secondUser@email.com").build());
+
+        userProvider.setSignedInUserName("firstUser");
         BankAccountDto firstUserBankAccount = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).build());
 
         //when -- then
-        userProvider.setSignedInUserName(secondUser.getUsername());
+        userProvider.setSignedInUserName("secondUser");
         Assertions.assertDoesNotThrow(() -> bankAccountFacade.deleteBankAccount(firstUserBankAccount.index()));
 
         //when
-        userProvider.setSignedInUserName(firstUser.getUsername());
+        userProvider.setSignedInUserName("firstUser");
         Optional<BankAccountDto> optionalBankAccountDto = bankAccountFacade.getAccount(firstUserBankAccount.index());
 
         //then

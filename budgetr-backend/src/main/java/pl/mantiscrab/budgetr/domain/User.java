@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter(AccessLevel.PACKAGE)
-@EqualsAndHashCode
 @Entity
 @Table(name = "BUDGETR_USERS")
 class User {

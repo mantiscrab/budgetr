@@ -26,11 +26,11 @@ public class BankAccountFacade {
         bankAccountService.deleteBankAccount(index);
     }
 
-    public List<BankAccountDto> getAccounts() {
+    List<BankAccountDto> getAccounts() {
         return bankAccountService.getAccounts();
     }
 
-    public Optional<BankAccountDto> getAccount(int index) {
+    Optional<BankAccountDto> getAccount(int index) {
         return bankAccountService.getAccount(index);
     }
 }

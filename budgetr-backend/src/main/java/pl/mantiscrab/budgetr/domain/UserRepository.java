@@ -11,11 +11,10 @@ import java.util.Optional;
 interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query("SELECT NEW pl.mantiscrab.budgetr.domain.track.dto.BankAccountDto(INDEX(ba), ba.name, ba.initialBalance) FROM User user JOIN user.bankAccounts ba WHERE user=:user")
+    @Query("SELECT NEW pl.mantiscrab.budgetr.domain.dto.BankAccountDto(INDEX(ba), ba.name, ba.initialBalance) FROM User user JOIN user.bankAccounts ba WHERE user=:user")
     List<BankAccountDto> findByUser(User user);
 
-    @Query("SELECT NEW pl.mantiscrab.budgetr.domain.track.dto.BankAccountDto(INDEX(ba), ba.name, ba.initialBalance) FROM User u JOIN u.bankAccounts ba WHERE u =:user AND INDEX(ba)=:index")
-    BankAccountDto findByUserAndIndex(User user
-                                     , Integer index
+    @Query("SELECT NEW pl.mantiscrab.budgetr.domain.dto.BankAccountDto(INDEX(ba), ba.name, ba.initialBalance) FROM User u JOIN u.bankAccounts ba WHERE u =:user AND INDEX(ba)=:index")
+    BankAccountDto findByUserAndIndex(User user                                     , Integer index
     );
 }

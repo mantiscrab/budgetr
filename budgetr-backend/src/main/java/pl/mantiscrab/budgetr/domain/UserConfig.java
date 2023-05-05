@@ -12,6 +12,7 @@ class UserConfig {
 
     private final UserRepository userRepository;
     private final SignedInUsernameProvider userNameProvider;
+    private final RecentlyAuthenticatedUsersPublisher publisher;
 
     @Bean
     BankAccountQueryService bankAccountQueryService() {
@@ -33,7 +34,7 @@ class UserConfig {
     }
 
     @Bean
-    UserService userService(final RecentlyAuthenticatedUsersPublisher publisher, final UserRepository userRepository) {
+    UserService userService() {
         UserService userService = new UserService(userRepository);
         publisher.subscribe(userService);
         return userService;
