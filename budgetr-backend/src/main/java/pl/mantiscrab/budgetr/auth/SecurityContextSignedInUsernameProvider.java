@@ -9,7 +9,7 @@ class SecurityContextSignedInUsernameProvider implements SignedInUsernameProvide
     @Override
     public String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(userIsNotAuthenticated(authentication)){
+        if (userIsNotAuthenticated(authentication)) {
             throw new BudgetrUserNotAuthenticatedException();
         }
         return authentication.getName();

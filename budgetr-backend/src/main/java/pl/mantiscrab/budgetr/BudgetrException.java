@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class BudgetrException extends RuntimeException{
+public class BudgetrException extends RuntimeException {
     private final HttpStatus httpStatus;
 
     public BudgetrException(String message, HttpStatus httpStatus) {

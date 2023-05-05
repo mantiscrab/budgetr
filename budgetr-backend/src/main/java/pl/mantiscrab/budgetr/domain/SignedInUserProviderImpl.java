@@ -1,9 +1,9 @@
 package pl.mantiscrab.budgetr.domain;
 
 import lombok.AllArgsConstructor;
-import pl.mantiscrab.budgetr.domain.infrastructure.UserNotAuthenticatedException;
 import pl.mantiscrab.budgetr.domain.exceptions.BudgetrUserNotAuthenticatedException;
 import pl.mantiscrab.budgetr.domain.infrastructure.SignedInUsernameProvider;
+import pl.mantiscrab.budgetr.domain.infrastructure.UserNotAuthenticatedException;
 
 @AllArgsConstructor
 class SignedInUserProviderImpl implements SignedInUserProvider {

@@ -19,7 +19,6 @@ import pl.mantiscrab.budgetr.domain.infrastructure.BankAccountWithLinks;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static pl.mantiscrab.budgetr.auth.UserAuthTestDataProvider.sampleRegisterDto;
-import static pl.mantiscrab.budgetr.domain.BankAccountTestDataProvider.sampleBankAccountDto;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @ActiveProfiles("test")
@@ -49,7 +48,7 @@ class BankAccountManagementTest {
                 .email("mantiscrab@budgetr.com").build();
         registrationHelper.registerUser(registerDto);
         //and user creates account
-        BankAccountDto createFirstAccountRequestBody = sampleBankAccountDto().id(null).name("Bank 1").build();
+        BankAccountDto createFirstAccountRequestBody = BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("Bank 1").build();
         ResponseEntity<BankAccountWithLinks> createFirstAccountResponse = bankAccountHelper
                 .createAccount(username, password, createFirstAccountRequestBody);
         //then response matches request
@@ -57,12 +56,12 @@ class BankAccountManagementTest {
 
         //when user request for created account
         ResponseEntity<BankAccountWithLinks> getFirstAccountResponse = bankAccountHelper
-                .getAccount(username, password, createFirstAccountResponse.getBody().id());
+                .getAccount(username, password, createFirstAccountResponse.getBody().getBankAccount().index());
         //then response matches request
         assertBankAccountResponseMatchesRequestIgnoreId(getFirstAccountResponse, createFirstAccountRequestBody);
 
         //when user creates second account
-        BankAccountDto createSecondAccountRequestBody = sampleBankAccountDto().id(null).name("Bank 2").build();
+        BankAccountDto createSecondAccountRequestBody = BankAccountTestDataProvider.sampleBankAccountDto().index(null).name("Bank 2").build();
         ResponseEntity<BankAccountWithLinks> createSecondAccountResponse = bankAccountHelper
                 .createAccount(username, password, createSecondAccountRequestBody);
         //then response matches request
@@ -74,8 +73,8 @@ class BankAccountManagementTest {
         Assertions.assertEquals(2, getAccountsResponse.getBody().getContent().size());
 
         //when user updates account
-        BankAccountDto updateSecondAccountRequestBody = sampleBankAccountDto()
-                .id(createSecondAccountResponse.getBody().id())
+        BankAccountDto updateSecondAccountRequestBody = BankAccountTestDataProvider.sampleBankAccountDto()
+                .index(createSecondAccountResponse.getBody().getBankAccount().index())
                 .name("Updated Bank 2")
                 .build();
         ResponseEntity<BankAccountWithLinks> updateSecondAccountResponse = bankAccountHelper
@@ -86,13 +85,13 @@ class BankAccountManagementTest {
 
         //when user request for updated account
         ResponseEntity<BankAccountWithLinks> getUpdatedSecondBankAccountResponse = bankAccountHelper
-                .getAccount(username, password, updateSecondAccountRequestBody.id());
+                .getAccount(username, password, updateSecondAccountRequestBody.index());
 
         //then response matches request
         assertBankAccountResponseMatchesRequest(getUpdatedSecondBankAccountResponse, updateSecondAccountRequestBody);
 
         //when user deletes second account
-        ResponseEntity<Void> deleteSecondAccountResponse = bankAccountHelper.deleteAccount(username, password, getUpdatedSecondBankAccountResponse.getBody().id());
+        ResponseEntity<Void> deleteSecondAccountResponse = bankAccountHelper.deleteAccount(username, password, getUpdatedSecondBankAccountResponse.getBody().getBankAccount().index());
 
         //then response status is NO_CONTENT
         Assertions.assertEquals(HttpStatus.NO_CONTENT, deleteSecondAccountResponse.getStatusCode());
@@ -106,7 +105,7 @@ class BankAccountManagementTest {
 
     private void assertBankAccountResponseMatchesRequest(ResponseEntity<BankAccountWithLinks> response, BankAccountDto requestBody) {
         BankAccountWithLinks responseBody = response.getBody();
-        Assertions.assertEquals(responseBody.id(), requestBody.id());
+        Assertions.assertEquals(responseBody.id(), requestBody.index());
         Assertions.assertEquals(responseBody.name(), requestBody.name());
         Assertions.assertEquals(responseBody.initialBalance(), requestBody.initialBalance());
     }

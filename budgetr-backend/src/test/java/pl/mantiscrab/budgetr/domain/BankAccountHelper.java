@@ -38,18 +38,18 @@ public class BankAccountHelper {
                 .exchange(uri, HttpMethod.GET, null, bankAccountWithLinksCollectionModelTypeReference);
     }
 
-    public ResponseEntity<BankAccountWithLinks> getAccount(String username, String password, Long id) {
-        URI uri = uriProvider.getUriOn(on(BankAccountController.class).getAccountById(id));
+    public ResponseEntity<BankAccountWithLinks> getAccount(String username, String password, Integer id) {
+        URI uri = uriProvider.getUriOn(on(BankAccountController.class).getAccountByIndex(id));
         return restTemplate.withBasicAuth(username, password).getForEntity(uri, BankAccountWithLinks.class);
     }
 
     public ResponseEntity<BankAccountWithLinks> updateAccount(String username, String password, BankAccountDto bankAccountDto) {
-        URI uri = uriProvider.getUriOn(on(BankAccountController.class).updateBankAccount(bankAccountDto.id(), bankAccountDto));
+        URI uri = uriProvider.getUriOn(on(BankAccountController.class).updateBankAccount(bankAccountDto.index(), bankAccountDto));
         RequestEntity<BankAccountDto> requestEntity = new RequestEntity<>(bankAccountDto, HttpMethod.PUT, uri);
         return restTemplate.withBasicAuth(username, password).exchange(requestEntity, BankAccountWithLinks.class);
     }
 
-    ResponseEntity<Void> deleteAccount(String username, String password, Long id) {
+    ResponseEntity<Void> deleteAccount(String username, String password, Integer id) {
         URI uri = uriProvider.getUriOn(on(BankAccountController.class).deleteBankAccount(id));
         RequestEntity<Void> requestEntity = new RequestEntity<>(HttpMethod.DELETE, uri);
         return restTemplate.withBasicAuth(username, password).exchange(requestEntity, Void.class);

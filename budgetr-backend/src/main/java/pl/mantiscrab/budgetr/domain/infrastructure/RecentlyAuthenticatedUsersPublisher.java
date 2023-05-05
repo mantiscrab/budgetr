@@ -10,11 +10,11 @@ public abstract class RecentlyAuthenticatedUsersPublisher {
         this.subscribers = new HashSet<>();
     }
 
-    public void subscribe(RecentlyAuthenticatedUsersSubscriber subscriber){
+    public void subscribe(RecentlyAuthenticatedUsersSubscriber subscriber) {
         subscribers.add(subscriber);
     }
 
-    public void notify(RecentlyAuthenticatedUser user){
+    public void notify(RecentlyAuthenticatedUser user) {
         for (RecentlyAuthenticatedUsersSubscriber subscriber : subscribers) {
             subscriber.userHasBeenAuthenticated(user);
         }

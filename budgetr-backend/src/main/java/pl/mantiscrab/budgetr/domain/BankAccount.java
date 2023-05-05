@@ -1,6 +1,7 @@
 package pl.mantiscrab.budgetr.domain;
 
 import lombok.*;
+import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -19,9 +20,15 @@ class BankAccount {
     private Long id;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "USERNAME")
-    private User user;
     @Digits(integer = 19, fraction = 2)
     private BigDecimal initialBalance;
+
+    public boolean hasName(String name) {
+        return this.name.equals(name);
+    }
+
+    public void update(BankAccountDto bankAccountInfo) {
+        this.initialBalance = bankAccountInfo.initialBalance();
+        this.name = bankAccountInfo.name();
+    }
 }

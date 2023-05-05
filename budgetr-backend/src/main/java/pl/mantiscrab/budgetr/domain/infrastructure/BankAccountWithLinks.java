@@ -29,8 +29,9 @@ public class BankAccountWithLinks extends RepresentationModel<BankAccountWithLin
     static BankAccountWithLinks of(BankAccountDto bankAccountDto) {
         final BankAccountWithLinks bankAccountWithLinks = new BankAccountWithLinks(bankAccountDto);
         bankAccountWithLinks.add(
-                BankAccountLinksProvider.bankAccountSelfLink(bankAccountDto.id()),
-                BankAccountLinksProvider.bankAccountsLink());
+                BankAccountLinksProvider.bankAccountSelfLink(bankAccountDto.index())
+//                ,BankAccountLinksProvider.bankAccountsLink()
+        );
         return bankAccountWithLinks;
     }
 
@@ -38,8 +39,8 @@ public class BankAccountWithLinks extends RepresentationModel<BankAccountWithLin
         return this.getLink(IanaLinkRelations.SELF).orElseThrow().toUri();
     }
 
-    public Long id() {
-        return bankAccount.id();
+    public Integer id() {
+        return bankAccount.index();
     }
 
     public String name() {
