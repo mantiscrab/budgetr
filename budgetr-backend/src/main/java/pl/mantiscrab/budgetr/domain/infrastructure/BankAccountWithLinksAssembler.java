@@ -12,7 +12,7 @@ class BankAccountWithLinksAssembler implements RepresentationModelAssembler<Bank
 
     @Override
     public BankAccountWithLinks toModel(BankAccountDto bankAccountDto) {
-        return BankAccountWithLinks.of(bankAccountDto.clone());
+        return BankAccountWithLinks.of(bankAccountDto);
     }
 
     public CollectionModel<BankAccountWithLinks> toModel(List<BankAccountDto> bankAccountDtos) {

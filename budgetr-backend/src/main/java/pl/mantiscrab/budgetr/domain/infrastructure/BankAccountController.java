@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.BankAccountFacade;
 import pl.mantiscrab.budgetr.domain.BankAccountQueryService;
+import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 
 import java.net.URI;
 import java.util.List;

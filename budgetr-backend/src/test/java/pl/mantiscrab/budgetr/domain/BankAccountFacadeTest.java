@@ -21,12 +21,12 @@ class BankAccountFacadeTest {
 
     @BeforeEach
     void initializeBankAccountFacade() {
-        User signedInUser = UserTestDataProvider.sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
         userProvider = new SignedInUsernameProviderMock("mantiscrab");
-        UserRepository userRepository = new InMemoryUserRepository();
         publisherMock = new RecentlyAuthenticatedUsersPublisherMock();
-        userRepository.save(signedInUser);
+        UserRepository userRepository = new InMemoryUserRepository();
         UserConfig userConfig = new UserConfig(userRepository, userProvider, publisherMock);
+        userConfig.userService();
+        publisherMock.notify(sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build());
         this.bankAccountFacade = userConfig.bankAccountFacade();
     }
 
@@ -137,11 +137,11 @@ class BankAccountFacadeTest {
     @Test
     void shouldThrowExceptionWhenUpdateBankAccountAndUserIsNotOwner() {
         //given
-
         publisherMock.notify(sampleUser().username("firstUser").email("firstUser@email.com").build());
         publisherMock.notify(sampleUser().username("secondUser").email("secondUser@email.com").build());
         userProvider.setSignedInUserName("firstUser");
         BankAccountDto firstUserBankAccount = bankAccountFacade.addBankAccount(BankAccountTestDataProvider.sampleBankAccountDto().index(null).build());
+
         //when--then
         userProvider.setSignedInUserName("secondUser");
         Assertions.assertThrows(OperationNotAllowedException.class, () -> bankAccountFacade.updateBankAccount(firstUserBankAccount.index(), firstUserBankAccount));

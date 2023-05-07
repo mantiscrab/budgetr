@@ -14,9 +14,8 @@ class BankAccountService {
     private final UserRepository userRepository;
 
     BankAccountDto addBankAccount(BankAccountDto newBankAccount) {
-        BankAccount account = BankAccountFactory.create(newBankAccount);
         User user = userProvider.getUser();
-        int bankAccountIndex = user.addBankAccount(account);
+        int bankAccountIndex = user.addBankAccount(newBankAccount);
         userRepository.save(user);
         return userRepository.findByUserAndIndex(user, bankAccountIndex);
     }

@@ -42,7 +42,8 @@ class User {
         this.email = email;
     }
 
-    int addBankAccount(BankAccount newBankAccount) {
+    int addBankAccount(BankAccountDto newBankAccountDto) {
+        final BankAccount newBankAccount = BankAccountFactory.create(newBankAccountDto);
         if (userAlreadyHasAccountWithName(newBankAccount.getName())) {
             throw BankAccountWithSameNameAlreadyExistsException.withName(newBankAccount.getName());
         }
@@ -53,9 +54,6 @@ class User {
     int updateAccount(BankAccountDto bankAccountInfo) {
         if (userAlreadyHasDifferentAccountWithName(bankAccountInfo.name(), bankAccountInfo.index())) {
             throw BankAccountWithSameNameAlreadyExistsException.withName(bankAccountInfo.name());
-        }
-        if (userDontHaveAccountWithIndex(bankAccountInfo.index())) {
-            throw new OperationNotAllowedException();
         }
         BankAccount account = bankAccounts.get(bankAccountInfo.index());
         account.update(bankAccountInfo);
@@ -68,7 +66,7 @@ class User {
 
     private boolean userAlreadyHasDifferentAccountWithName(String newBankAccount, int index) {
         List<BankAccount> bankAccountsCopy = new ArrayList<>(bankAccounts);
-        if (index < bankAccountsCopy.size()) {
+        if (bankAccountsContainIndex(index)) {
             bankAccountsCopy.remove(index);
         } else
             throw new OperationNotAllowedException();
@@ -76,8 +74,8 @@ class User {
                 .anyMatch(ba -> ba.hasName(newBankAccount));
     }
 
-    private boolean userDontHaveAccountWithIndex(Integer bankAccountIndex) {
-        return this.bankAccounts.size() <= bankAccountIndex;
+    private boolean bankAccountsContainIndex(final int index) {
+        return index < bankAccounts.size();
     }
 
     public void removeAccount(Integer index) {
@@ -89,5 +87,16 @@ class User {
 
     private int lastIndexOfBankAccount() {
         return bankAccounts.size() - 1;
+    }
+
+    private static class BankAccountFactory {
+        static BankAccount create(BankAccountDto newBankAccountDto) {
+            if (newBankAccountDto.index() != null)
+                throw new OperationNotAllowedException();
+            return new BankAccount(
+                    null,
+                    newBankAccountDto.name(),
+                    newBankAccountDto.initialBalance());
+        }
     }
 }
