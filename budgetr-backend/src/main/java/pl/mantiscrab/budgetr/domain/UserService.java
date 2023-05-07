@@ -16,10 +16,10 @@ class UserService implements RecentlyAuthenticatedUsersSubscriber {
                 .findByUsername(username)
                 .ifPresentOrElse(
                         user -> user.updateEmail(email),
-                        () -> createUser(authenticatedUserInfo));
+                        () -> addUser(authenticatedUserInfo));
     }
 
-    private void createUser(final RecentlyAuthenticatedUser authenticatedUserInfo) {
+    private void addUser(final RecentlyAuthenticatedUser authenticatedUserInfo) {
         User user = new User(authenticatedUserInfo.username(), authenticatedUserInfo.email());
         userRepository.save(user);
     }

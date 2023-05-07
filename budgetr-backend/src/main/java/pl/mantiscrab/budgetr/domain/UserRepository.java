@@ -15,6 +15,5 @@ interface UserRepository extends CrudRepository<User, Long> {
     List<BankAccountDto> findByUser(User user);
 
     @Query("SELECT NEW pl.mantiscrab.budgetr.domain.dto.BankAccountDto(INDEX(ba), ba.name, ba.initialBalance) FROM User u JOIN u.bankAccounts ba WHERE u =:user AND INDEX(ba)=:index")
-    BankAccountDto findByUserAndIndex(User user                                     , Integer index
-    );
+    BankAccountDto findByUserAndIndex(User user, Integer index);
 }

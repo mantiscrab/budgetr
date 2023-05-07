@@ -5,7 +5,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.mantiscrab.budgetr.domain.BankAccountFacade;
-import pl.mantiscrab.budgetr.domain.BankAccountQueryService;
+import pl.mantiscrab.budgetr.domain.BankAccountQueryFacade;
 import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 
 import java.net.URI;
@@ -15,19 +15,19 @@ import java.util.List;
 @RestController
 public class BankAccountController {
     private final BankAccountFacade bankAccountFacade;
-    private final BankAccountQueryService bankAccountQueryService;
+    private final BankAccountQueryFacade bankAccountQueryFacade;
     private final BankAccountWithLinksAssembler assembler;
 
     @GetMapping("/bank-account/{index}")
     public ResponseEntity<BankAccountWithLinks> getAccountByIndex(@PathVariable Integer index) {
-        return ResponseEntity.of(bankAccountQueryService
+        return ResponseEntity.of(bankAccountQueryFacade
                 .findByIndex(index)
                 .map(assembler::toModel));
     }
 
     @GetMapping("/bank-accounts")
     public ResponseEntity<CollectionModel<BankAccountWithLinks>> getAccounts() {
-        final List<BankAccountDto> accounts = bankAccountQueryService.getAccounts();
+        final List<BankAccountDto> accounts = bankAccountQueryFacade.getAccounts();
         final CollectionModel<BankAccountWithLinks> bankAccountsWithLinks = assembler.toModel(accounts);
         return ResponseEntity.ok(bankAccountsWithLinks);
     }

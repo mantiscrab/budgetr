@@ -15,8 +15,8 @@ class UserConfig {
     private final RecentlyAuthenticatedUsersPublisher publisher;
 
     @Bean
-    BankAccountQueryService bankAccountQueryService() {
-        return new BankAccountQueryService(
+    BankAccountQueryFacade BankAccountQueryFacade() {
+        return new BankAccountQueryFacade(
                 signedInUserProvider(),
                 this.userRepository);
     }

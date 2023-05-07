@@ -29,6 +29,7 @@ class User {
     private String email;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "username")
     @OrderColumn
     private List<BankAccount> bankAccounts;
 

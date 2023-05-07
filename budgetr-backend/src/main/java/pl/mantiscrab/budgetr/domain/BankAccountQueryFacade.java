@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class BankAccountQueryService {
+public class BankAccountQueryFacade {
     private final SignedInUserProvider userProvider;
     private final UserRepository accountRepository;
 
@@ -18,15 +18,11 @@ public class BankAccountQueryService {
 
     public Optional<BankAccountDto> findByIndex(int index) {
         User user = userProvider.getUser();
-        return Optional.ofNullable(accountRepository.findByUserAndIndex(user
-                , index
-        ));
+        return Optional.ofNullable(accountRepository.findByUserAndIndex(user, index));
     }
 
     public BankAccountDto getByIndex(int index) {
         User user = userProvider.getUser();
-        return accountRepository.findByUserAndIndex(user
-                , index
-        );
+        return accountRepository.findByUserAndIndex(user, index);
     }
 }

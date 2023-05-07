@@ -29,8 +29,8 @@ public class BankAccountWithLinks extends RepresentationModel<BankAccountWithLin
     static BankAccountWithLinks of(BankAccountDto bankAccountDto) {
         final BankAccountWithLinks bankAccountWithLinks = new BankAccountWithLinks(bankAccountDto);
         bankAccountWithLinks.add(
-                BankAccountLinksProvider.bankAccountSelfLink(bankAccountDto.index())
-//                ,BankAccountLinksProvider.bankAccountsLink()
+                BankAccountLinksProvider.bankAccountSelfLink(bankAccountDto.index()),
+                BankAccountLinksProvider.bankAccountsLink()
         );
         return bankAccountWithLinks;
     }
