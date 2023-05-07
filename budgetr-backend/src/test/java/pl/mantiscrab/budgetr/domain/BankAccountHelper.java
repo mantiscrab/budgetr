@@ -15,7 +15,7 @@ import java.net.URI;
 
 import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
 
-public class BankAccountHelper {
+class BankAccountHelper {
     private final TestRestTemplate restTemplate;
     private final UriProvider uriProvider;
     private final ParameterizedTypeReference<CollectionModel<BankAccountWithLinks>> bankAccountWithLinksCollectionModelTypeReference

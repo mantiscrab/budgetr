@@ -63,18 +63,15 @@ class User {
     }
 
     private boolean userAlreadyHasAccountWithName(String name) {
-        return bankAccounts.stream()
-                .anyMatch(ba -> ba.hasName(name));
+        return bankAccounts.stream().anyMatch(ba -> ba.hasName(name));
     }
 
     private boolean userAlreadyHasDifferentAccountWithName(String newBankAccount, int index) {
         List<BankAccount> bankAccountsCopy = new ArrayList<>(bankAccounts);
         if (index < bankAccountsCopy.size()) {
             bankAccountsCopy.remove(index);
-        }
-        else {
+        } else
             throw new OperationNotAllowedException();
-        }
         return bankAccountsCopy.stream()
                 .anyMatch(ba -> ba.hasName(newBankAccount));
     }

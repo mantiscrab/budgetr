@@ -26,9 +26,7 @@ class BankAccountService {
         User user = userProvider.getUser();
         int bankAccountIndex = user.updateAccount(bankAccountDto);
         userRepository.save(user);
-        return userRepository.findByUserAndIndex(user
-                , bankAccountIndex
-        );
+        return userRepository.findByUserAndIndex(user, bankAccountIndex);
     }
 
     void deleteBankAccount(Integer index) {
@@ -47,8 +45,6 @@ class BankAccountService {
     }
 
     public Optional<BankAccountDto> getAccount(int index) {
-        return Optional.ofNullable(userRepository.findByUserAndIndex(userProvider.getUser()
-                , index
-        ));
+        return Optional.ofNullable(userRepository.findByUserAndIndex(userProvider.getUser(), index));
     }
 }

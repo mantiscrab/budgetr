@@ -5,7 +5,7 @@ import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 
 import java.util.*;
 
-public class InMemoryUserRepository implements UserRepository {
+class InMemoryUserRepository implements UserRepository {
 
     private final Map<String, User> userMap = new HashMap<>();
 

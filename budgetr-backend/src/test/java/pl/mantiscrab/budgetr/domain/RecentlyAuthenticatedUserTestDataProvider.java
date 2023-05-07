@@ -1,6 +1,6 @@
 package pl.mantiscrab.budgetr.domain;
 
-public class RecentlyAuthenticatedUserTestDataProvider {
+class RecentlyAuthenticatedUserTestDataProvider {
     public static RecentlyAuthenticatedUserImpl.RecentlyAuthenticatedUserImplBuilder
             sampleUser() {
         return RecentlyAuthenticatedUserImpl.builder()

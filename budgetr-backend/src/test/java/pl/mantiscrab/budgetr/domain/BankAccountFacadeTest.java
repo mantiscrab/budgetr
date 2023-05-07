@@ -16,13 +16,13 @@ import static pl.mantiscrab.budgetr.domain.RecentlyAuthenticatedUserTestDataProv
 
 class BankAccountFacadeTest {
     private BankAccountFacade bankAccountFacade;
-    private DummySignedInUsernameProvider userProvider;
+    private SignedInUsernameProviderMock userProvider;
     private RecentlyAuthenticatedUsersPublisher publisherMock;
 
     @BeforeEach
     void initializeBankAccountFacade() {
         User signedInUser = UserTestDataProvider.sampleUser().username("mantiscrab").email("mantiscrab@budgetr.pl").build();
-        userProvider = new DummySignedInUsernameProvider("mantiscrab");
+        userProvider = new SignedInUsernameProviderMock("mantiscrab");
         UserRepository userRepository = new InMemoryUserRepository();
         publisherMock = new RecentlyAuthenticatedUsersPublisherMock();
         userRepository.save(signedInUser);
