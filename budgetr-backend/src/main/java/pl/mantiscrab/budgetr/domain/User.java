@@ -1,6 +1,9 @@
 package pl.mantiscrab.budgetr.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import pl.mantiscrab.budgetr.domain.dto.BankAccountDto;
 import pl.mantiscrab.budgetr.domain.exceptions.BankAccountWithSameNameAlreadyExistsException;
 import pl.mantiscrab.budgetr.domain.exceptions.OperationNotAllowedException;
@@ -13,7 +16,6 @@ import java.util.List;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Getter(AccessLevel.PACKAGE)
 @Entity
 @Table(name = "BUDGETR_USERS")
@@ -39,7 +41,7 @@ class User {
         this.bankAccounts = new ArrayList<>();
     }
 
-    public void updateEmail(String email) {
+    void updateEmail(String email) {
         this.email = email;
     }
 

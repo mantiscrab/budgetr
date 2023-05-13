@@ -20,7 +20,7 @@ class BankAccountService {
         return userRepository.findByUserAndIndex(user, bankAccountIndex);
     }
 
-    public BankAccountDto updateBankAccount(Integer index, BankAccountDto bankAccountDto) {
+    BankAccountDto updateBankAccount(Integer index, BankAccountDto bankAccountDto) {
         throwExceptionIfIdsDontMatch(index, bankAccountDto);
         User user = userProvider.getUser();
         int bankAccountIndex = user.updateAccount(bankAccountDto);
@@ -34,16 +34,16 @@ class BankAccountService {
         userRepository.save(user);
     }
 
-    private void throwExceptionIfIdsDontMatch(Integer id, BankAccountDto bankAccountDto) {
-        if (!Objects.equals(id, bankAccountDto.index()))
-            throw new OperationNotAllowedException();
-    }
-
-    public List<BankAccountDto> getAccounts() {
+    List<BankAccountDto> getAccounts() {
         return userRepository.findByUser(userProvider.getUser());
     }
 
-    public Optional<BankAccountDto> getAccount(int index) {
+    Optional<BankAccountDto> getAccount(int index) {
         return Optional.ofNullable(userRepository.findByUserAndIndex(userProvider.getUser(), index));
+    }
+
+    private void throwExceptionIfIdsDontMatch(Integer id, BankAccountDto bankAccountDto) {
+        if (!Objects.equals(id, bankAccountDto.index()))
+            throw new OperationNotAllowedException();
     }
 }
