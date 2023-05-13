@@ -9,7 +9,7 @@ import java.util.Optional;
 class InMemoryUserAuthRepository extends InMemoryDummyCrudRepository<UserAuth, String> implements UserAuthRepository {
     @Override
     public <S extends UserAuth> S save(S user) {
-        if(findByEmail(user.getEmail()).isPresent())
+        if (findByEmail(user.getEmail()).isPresent())
             throw new DataIntegrityViolationException(
                     "User with email: \"" + user.getEmail() + "\" already exists");
         map.put(user.getUsername(), user);
