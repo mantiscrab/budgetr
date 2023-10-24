@@ -25,6 +25,9 @@ class User {
     @NotBlank
     private String username;
 
+    @Version
+    private Long version;
+
     @Column(nullable = false, unique = true)
     @Email
     @NotBlank

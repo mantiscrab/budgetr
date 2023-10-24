@@ -4,8 +4,8 @@ VALUES ('mantiscrab', 'mantiscrab@budgetr.pl', '{bcrypt}$2y$10$cPGQpBcjRtTuT5Y97
 insert into AUTHORITIES (AUTHORITY, USERNAME)
 VALUES ('ROLE_USER', 'mantiscrab');
 
-insert into BUDGETR_USERS (USERNAME, EMAIL)
-values ('mantiscrab', 'mantiscrab@budgetr.pl');
+insert into BUDGETR_USERS (USERNAME, EMAIL, VERSION)
+values ('mantiscrab', 'mantiscrab@budgetr.pl', '1');
 
 insert into BANK_ACCOUNT (INITIAL_BALANCE, NAME, USERNAME, BANK_ACCOUNTS_ORDER)
 VALUES (0.00, 'Millennium', 'mantiscrab', 0);
